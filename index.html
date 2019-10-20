@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ฝ่ายบุคคล</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="excelexportjs.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
+    authDomain: "testmes-2fcf4.firebaseapp.com",
+    databaseURL: "https://testmes-2fcf4.firebaseio.com",
+    projectId: "testmes-2fcf4",
+    storageBucket: "testmes-2fcf4.appspot.com",
+    messagingSenderId: "866846768783",
+    appId: "1:866846768783:web:6ef7269027340cfc"
+  };
+    </script>
+    <style type="text/css">
+    	@import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
+    	body{
+    		padding: 0;
+    		margin: 0;
+    		font-family: 'Kanit', sans-serif;
+    	}
+    	::-webkit-scrollbar{
+    		width: 1px;
+    	}
+    	.form{
+    		position: fixed;
+    		bottom: 0;
+    		opacity: 1;
+    		background-color: #F0F3EC;
+    		padding: 20px 25px;
+    		width: 100%;
+    		transition: all 1s ease;
+    	}
+    	.form:hover{
+    		
+    	}
+    	.show-table{
+    		margin-top: 10px;
+    		display: block;
+    		width: 90%;
+    		height: 400px;
+    		overflow: scroll;
+    	}
+    	table{
+    		font-family: 'Kanit', sans-serif;
+    		margin-top:10px;
+    		background-color: #C0E88A;
+    	}
+    	th{
+    		width: 200px;
+    		padding: 10px 25px;
+    	}
+    	td{
+    		text-align: center;
+    		width: 200px;
+    		padding: 10px 25px;
+    	}
+    	td>button{
+    		outline:none;
+    		padding: 10px 25px;
+    		background-color: #FFF;
+    		border:2px solid #FFF;
+    		color:#34332D;
+    		border-radius: 15px;
+    		width: 50%;
+    		font-family: 'Kanit', sans-serif;
+    	}
+    	input[type="text"]{
+    		padding: 10px 25px;
+    		margin-bottom:5px;
+    		width: 20%;
+    		border:2px solid #DDD;
+    		font-family: 'Kanit', sans-serif;
+    	}
+    	input[type="number"]{
+    		padding: 10px 25px;
+    		margin-bottom:5px;
+    		width: 34%;
+    		border:2px solid #DDD;
+    		font-family: 'Kanit', sans-serif;
+    	}
+    	input[type="date"]{
+    		padding: 10px 25px;
+    		margin-bottom:5px;
+    		width: 30%;
+    		border:2px solid #DDD;
+    		font-family: 'Kanit', sans-serif;
+    	}
+    	.btn-successful{
+    		padding: 10px 25px;
+    		background-color: #6CA613;
+    		border:2px solid #6CA613;
+    		color:#fff;
+    		border-radius: 15px;
+    		width: 50%;
+    		font-family: 'Kanit', sans-serif;
+    	}
+    	select{
+    		margin:10px;
+    		padding: 10px 25px;
+    		font-family: 'Kanit', sans-serif;
+    		outline:none;
+    	}
+    </style>
+</head>
+<body>
+	<select id="type" onchange="change()">
+		<option value="vihok1">ชมรมวิหคอาสา (ธรรมศาสตร์)</option>
+		<option value="vihok2">ชมรมวิหคอาสา (ต่างสถาบัน)</option>
+		<option value="rd">ร.ด. เฉพาะกิจ</option>
+	</select>
+	<button onclick="download()" class="btn-successful">ดาวโหลด xlsx</button>
+	<center>
+		<div class="show-table">
+<table id="table">
+	<tr>
+		<th>ชื่อ – สกุล</th><th>ชื่อเล่น</th><th>รหัสประจำตัว</th><th>หมายเลขโทรศัพท์</th><th>วัน เดือน ปีเกิด</th><th>แก้ไข</th>
+
+	</tr>
+</table>
+</div>
+</center>
+<div class="form">
+	<center>
+	<input type="text" name="" placeholder="ชื่อ – สกุล" id="FullName">
+	<input type="text" name="" placeholder="ชื่อเล่น" id="NickName">
+	<input type="text" name="" placeholder="รหัสประจำตัว" id="Number"><br>
+	<input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone">
+	<input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date"><br>
+	<button onclick="send()" class="btn-successful">บันทึก</button>
+</center>
+</div>
+<script type="text/javascript">
+	firebase.initializeApp(firebaseConfig);
+	let type=$("#type").val();
+    ref=firebase.database().ref("name/"+type);
+    ref.on("value",function(snapshot){
+    	$(".element").remove();
+    	snapshot.forEach(function(data){
+    		$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td></tr>");
+    	});
+    },function(err){
+    	console.log(err);
+    });
+    function download(){
+    	swal({
+    		title:"แจ้งเตือน",
+    		text:"คุณต้องการดาวโหลดข้อมูลเป็นไฟล์ xlsx หรือไม่",
+    		icon:"warning",
+    		buttons:true,
+    		dangerMode:true,
+    	}).then((download)=>{
+    		if(download){
+    			$("#table").excelexportjs({
+    				containerid:"table",
+    				datatype:'table'
+    			});
+    			swal("แจ้งเตือน","ดาวโหลดไฟล์สำเร็จ","success")
+    		}else{
+    			swal("คุณได้ยกเลิกการดาวโหลด");
+    		}
+    	});
+    }
+    function change(){
+    	let type=$("#type").val();
+    	ref=firebase.database().ref("name/"+type);
+    	$(".element").remove();
+    	ref.once("value",function(snapshot){
+    		snapshot.forEach(function(data){
+    			$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td></tr>");
+    		});
+    	},function(err){
+    		console.log(err);
+    	});
+    }
+    function load(tag){
+    	swal("แก้ไขข้อมูลของ"+tag);
+    	let type=$("#type").val();
+    	ref=firebase.database().ref("name/"+type+"/"+tag);
+    	ref.once("value",function(snapshot){
+    		$("#FullName").val(snapshot.val()[0]);
+    		$("#NickName").val(snapshot.val()[1]);
+    		$("#Number").val(snapshot.val()[2]);
+    		$("#Phone").val(snapshot.val()[3]);
+    		$("#Date").val(snapshot.val()[4]);
+    	},function(err){
+    		console.err("Error"+err);
+    	});
+    }
+	function send(){
+		let type=$("#type").val();
+		ref=firebase.database().ref("name/"+type);
+		let FullName=$("#FullName").val();
+		let NickName=$("#NickName").val();
+		let number=$("#Number").val();
+		let Phone=$("#Phone").val();
+		let date=$("#Date").val();
+		console.log("ส่งข้อมูล :"+FullName+":"+NickName+":"+number+":"+Phone+":"+date);
+		ref.child(number).set([FullName,NickName,number,Phone,date]);
+		change();
+		swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success")
+	}
+</script>
+</body>
+</html>
