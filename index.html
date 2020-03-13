@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,112 +31,67 @@
     	::-webkit-scrollbar{
     		width: 1px;
     	}
-    	.form{
-    		position: relative;
-    		bottom: 0;
-    		opacity: 1;
-    		background-color: #F0F3EC;
-    		padding: 20px 25px;
-    		width: 100%;
-    		transition: all 1s ease;
-    	}
-    	.form:hover{
-    		
-    	}
-    	.show-table{
-    		margin-top: 10px;
-    		display: block;
-    		width: 90%;
-    		/*height: 400px;*/
-    		overflow: scroll;
-    	}
-    	table{
-    		font-family: 'Kanit', sans-serif;
-    		margin-top:10px;
-    		background-color: #DDD;
-            color:#fff;
-    	}
-    	th{
+        
+        table{
+            width: 80%;
             background-color: #006633;
-    		width: 200px;
-    		padding: 10px 25px;
-    	}
-    	td{
-    		text-align: center;
-    		width: 200px;
-            color:#ddd;
-            color:#006633;
-    		padding: 10px 25px;
-            font-size: 14px;
-    	}
-        tr{
-            transition: all 0.5s ease;
         }
-        tr:hover{
-            background:#339966;
+        th{
+            background-color: #2A2727;
+            height: 25pt;
+        }
+        tr{
+            font-size: 10pt;
+            text-align: center;
+            color:#B8B8B8;
         }
         tr:hover>td{
             color:#fff;
+            text-shadow: 0px 0px 5px 0px #000;
         }
-    	td>button{
-    		outline:none;
-    		padding: 10px 25px;
-    		background-color: #FFF;
-    		border:2px solid #FFF;
-    		color:#34332D;
-    		border-radius: 15px;
-    		width: 50%;
-    		font-family: 'Kanit', sans-serif;
-    	}
-    	input[type="text"]{
-    		padding: 10px 25px;
-    		margin-bottom:5px;
-    		width: 20%;
-    		border:2px solid #DDD;
-    		font-family: 'Kanit', sans-serif;
-    	}
-    	input[type="number"]{
-    		padding: 10px 25px;
-    		margin-bottom:5px;
-    		width: 34%;
-    		border:2px solid #DDD;
-    		font-family: 'Kanit', sans-serif;
-    	}
-    	input[type="date"]{
-    		padding: 10px 25px;
-    		margin-bottom:5px;
-    		width: 30%;
-    		border:2px solid #DDD;
-    		font-family: 'Kanit', sans-serif;
-    	}
-    	.btn-successful{
-    		padding: 10px 25px;
-    		background-color: #006633;
-    		border:2px solid #006633;
-    		color:#fff;
-    		border-radius: 15px;
-    		width: 20%;
-    		font-family: 'Kanit', sans-serif;
-    	}
-    	select{
-    		margin:10px;
-    		padding: 10px 25px;
-    		font-family: 'Kanit', sans-serif;
-    		outline:none;
-            border-radius: 15px;
-    	}
-        a{
+        td>button{
             font-family: 'Kanit', sans-serif;
-            font-size: 12px;
+            background-color: #ddd;
+            border:1px solid #ddd;
+            color:#2A2727;
+            border-radius: 15px;
+        }
+        button{
+            font-family: 'Kanit', sans-serif;
+            background-color: #2A2727;
+            border:1px solid #2A2727;
+            color:#ddd;
+            border-radius: 15px;
+            margin:10pt;
+            padding: 5pt 10pt;
+        }
+        input{
+            font-size: 10pt;
+            font-family: 'Kanit', sans-serif;
+            margin: 5pt;
+            padding: 5pt;
+            outline: none;
+            border-radius: 15px;
+            border:0px solid #2A2727;
+            box-shadow: 0px 0px 5px 0px #000;
+        }
+        select{
+            font-size: 10pt;
+            font-family: 'Kanit', sans-serif;
+            margin: 5pt;
+            padding: 5pt;
+            outline: none;
+            border-radius: 15px;
+            border:0px solid #2A2727;
+            box-shadow: 0px 0px 5px 0px #000;
+        }
+        a{
+            font-size: 10pt;
         }
     </style>
 </head>
 <body>
-    <div>
-        <a href="index.html">รายชื่อ</a>
-        <a href="radio.html">วิทยุสื่อสาร</a>
-        <a href="index.html">ทำบัตร</a>
-    </div>
+    
     <br>
 
     <center>
@@ -145,15 +101,16 @@
         <option value="vihok1">ชมรมวิหคอาสา (ธรรมศาสตร์)</option>
         <option value="vihok2">ชมรมวิหคอาสา (ต่างสถาบัน)</option>
         <option value="rd">ร.ด. เฉพาะกิจ</option>
+        <option value="alumni">ศิษย์เก่า</option>
     </select>
-    <button onclick="download()" class="btn-successful"><img src="downxlsx.png" width="250px"></button>
+    <button onclick="download()" class="btn-successful">ดาวน์โหลด</button>
     </center>
 	
 	<center>
 		<div class="show-table">
-<table id="table" cellpadding="0" cellspacing="0">
+<table id="table" cellpadding="10" cellspacing="0">
 	<tr>
-		<th>ชื่อ – สกุล</th><th>ชื่อเล่น</th><th>รหัสประจำตัว</th><th>หมายเลขโทรศัพท์</th><th>วัน เดือน ปีเกิด</th><th>แก้ไข</th>
+		<th>ชื่อ – สกุล</th><th>ชื่อเล่น</th><th>รหัสประจำตัว</th><th>หมายเลขโทรศัพท์</th><th>วัน เดือน ปีเกิด</th><th>แก้ไข</th><th>ลบ</th>
 
 	</tr>
 </table>
@@ -165,10 +122,10 @@
         <a>คำเตือน :: โปรดตรวจสอบข้อมูลก่อนทำการบันทึกข้อมูล</a><br><br>
 	<input type="text" name="" placeholder="ชื่อ – สกุล" id="FullName">
 	<input type="text" name="" placeholder="ชื่อเล่น" id="NickName">
-	<input type="text" name="" placeholder="รหัสประจำตัว" id="Number"><br>
+	<input type="text" name="" placeholder="รหัสประจำตัววิหค" id="Number"><br>
 	<input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone">
-	<input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date"><br>
-	<button onclick="send()" class="btn-successful">บันทึกลงฐานข้อมูล</button>
+	<input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date"><input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password">
+	<br><button onclick="send()" class="btn-successful">บันทึกลงฐานข้อมูล</button>
 </center>
 </div>
 <script type="text/javascript">
@@ -178,7 +135,7 @@
     ref.on("value",function(snapshot){
     	$(".element").remove();
     	snapshot.forEach(function(data){
-    		$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td></tr>");
+    		$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
     	});
     },function(err){
     	console.log(err);
@@ -208,7 +165,7 @@
     	$(".element").remove();
     	ref.once("value",function(snapshot){
     		snapshot.forEach(function(data){
-    			$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td></tr>");
+    			$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
     		});
     	},function(err){
     		console.log(err);
@@ -228,19 +185,106 @@
     		console.err("Error"+err);
     	});
     }
+    function deletes(tag){
+        let type=$("#type").val();
+            if(type!="alumni"){
+                swal({
+            title:"แจ้งเตือน",
+            text:"คุณต้องการย้ายเป็นศิษย์เก่าหรือไม่",
+            icon:"warning",
+            buttons:true,
+            dangerMode:true,
+        }).then((download)=>{
+
+            if(download){
+               
+        
+        ref=firebase.database().ref("name/"+type+"/"+tag);
+        ref.once("value",function(snapshot){
+            ref=firebase.database().ref("name/"+type+"/"+tag);
+        ref.remove();
+            ref=firebase.database().ref("name/alumni/"+tag);
+        ref.child(0).set(snapshot.val()[0]);
+        ref.child(1).set(snapshot.val()[1]);
+        ref.child(2).set(snapshot.val()[2]);
+        ref.child(3).set(snapshot.val()[3]);
+        ref.child(4).set(snapshot.val()[4]);
+        swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
+        },function(err){
+            console.err("Error"+err);
+        });
+
+                
+            }else{
+        ref=firebase.database().ref("name/"+type+"/"+tag);
+        ref.remove();
+        swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
+            }
+        });
+            }else{
+                swal({
+            title:"แจ้งเตือน",
+            text:"คุณต้องการย้ายเป็นเป็นศิษย์ปัจจุบันหรือไม่",
+            icon:"warning",
+            buttons:true,
+            dangerMode:true,
+        }).then((download)=>{
+
+            if(download){
+               
+        
+        ref=firebase.database().ref("name/"+type+"/"+tag);
+        ref.once("value",function(snapshot){
+            ref=firebase.database().ref("name/"+type+"/"+tag);
+        ref.remove();
+            ref=firebase.database().ref("name/vihok1/"+tag);
+        ref.child(0).set(snapshot.val()[0]);
+        ref.child(1).set(snapshot.val()[1]);
+        ref.child(2).set(snapshot.val()[2]);
+        ref.child(3).set(snapshot.val()[3]);
+        ref.child(4).set(snapshot.val()[4]);
+
+        swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
+        },function(err){
+            console.err("Error"+err);
+        });
+
+                
+            }else{
+        ref=firebase.database().ref("name/"+type+"/"+tag);
+        ref.remove();
+        swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
+            }
+        });
+            }
+        
+        
+        //window.location.reload();
+    }
 	function send(){
-		let type=$("#type").val();
-		ref=firebase.database().ref("name/"+type);
-		let FullName=$("#FullName").val();
-		let NickName=$("#NickName").val();
-		let number=$("#Number").val();
-		let Phone=$("#Phone").val();
-		let date=$("#Date").val();
-		console.log("ส่งข้อมูล :"+FullName+":"+NickName+":"+number+":"+Phone+":"+date);
-		ref.child(number).set([FullName,NickName,number,Phone,date]);
-		change();
-		swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success")
+        let password=$("#password").val();
+        ref=firebase.database().ref("persor/"+password);
+        ref.once("value",function(snapshot){
+        if(snapshot.val()!=null){
+            let type=$("#type").val();
+        ref=firebase.database().ref("name/"+type);
+        let FullName=$("#FullName").val();
+        let NickName=$("#NickName").val();
+        let number=$("#Number").val();
+        let Phone=$("#Phone").val();
+        let date=$("#Date").val();
+        console.log("ส่งข้อมูล :"+FullName+":"+NickName+":"+number+":"+Phone+":"+date);
+        ref.child(number).set([FullName,NickName,number,Phone,date]);
+        change();
+        swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success")
+        }
+    },function(err){
+
+    });/*
+		*/
 	}
 </script>
 </body>
 </html>
+
+
