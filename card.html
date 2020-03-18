@@ -17,6 +17,7 @@
 	
 </canvas>
 <script type="text/javascript">
+	var canva=document.getElementById("canvas");
 	var firebaseConfig = {
     apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
     authDomain: "testmes-2fcf4.firebaseapp.com",
@@ -33,7 +34,7 @@
 
     ref=firebase.database().ref("name/vihok1/"+$("#search").val());
     ref.on("value",function(snapshot){
-    	var canvas=document.getElementById("canvas").getContext("2d");
+    	var canvas=canva.getContext("2d");
 	var img=new Image();
 	img.onload=function(){
 		canvas.drawImage(img,0,0,325,512);
@@ -52,8 +53,8 @@
 	
   }
 function set(){
-	var canvas=document.getElementById("canvas");
-	var data=canvas.toDataUrl("image/png");
+	
+	var data=canva.toDataUrl("image/png");
 	console.log(data);
 	document.getElementById("down").href=data;
 }
