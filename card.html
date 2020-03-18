@@ -11,8 +11,8 @@
 <body>
 	<input type="text" name="" id="search">
 <button onclick="load()">left</button><br>
-<a href="#" download id="down">download</a><br>
-<canvas id="canvas" width="325px" height="512px">
+<a href="#" download="บัตรวิหค.png" id="down">download</a><br>
+<canvas id="canvas" width="325px" height="512px" crossOrigin="Anonymous">
 	
 </canvas>
 <script type="text/javascript">
@@ -44,13 +44,13 @@
 		canvas.fillText(snapshot.val()[2],120,392);
 	}
 	img.src="page.png";
-	data=canvas.toDataUrl("image/jpeg");
-	console.log(data);
-	$("#down").href=data;
+	
     },function(error){
 
     });
-	
+	data=canvas.toDataUrl("image/jpeg");
+	console.log(data);
+	document.getElementById("down").href=data;
   }
 
 </script>
