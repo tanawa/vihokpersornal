@@ -10,18 +10,32 @@
 	<style type="text/css">
 		canvas{
 			box-shadow: 0px 0px 5px 0px #000;
+			margin: 10px;
+		}
+		button{
+			background-color: #ddd;
+			border:1px solid #DDD;
+			border-radius: 15px;
+		}
+		input[type="text"]{
+			padding-left: 10px;
+			background-color: #fff;
+			border:1px solid #DDD;
+			border-radius: 15px;
+			outline: none;
 		}
 	</style>
 </head>
 <body>
 	<center>
 	<input type="text" name="" id="search">
-<button onclick="load()">load</button><br>
-<button onclick="set()">set</button>
-<a id="down" download="บัตรวิหค.png" >download</a><br>
+<button onclick="load()">ค้นหา</button><br>
+
 <canvas id="canvas" width="325px" height="512px">
 	
-</canvas>
+</canvas><br>
+<button onclick="set()">แปลงเป็น PNG</button>
+<a id="down" download="บัตรวิหค.png" ><button>โหลด</button></a><br>
 </center>
 <script type="text/javascript">
 	var canva=document.getElementById("canvas");
@@ -53,16 +67,16 @@
 		canvas.fillText(snapshot.val()[2],120,392);
 	}
 	img.src="page.png";
-	var data=canva.toDataURL("image/png");
-	console.log(data);
-	document.getElementById("down").href=data;
+	
     },function(error){
 
     });
 	
   }
 function set(){
-	
+	var data=canva.toDataURL("image/png");
+	console.log(data);
+	document.getElementById("down").href=data;
 	
 }
 </script>
