@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+	<input type="text" name="" id="search">
+<button onclick="load()">left</button><br>
+<a href="" download id="down">download</a>
+<canvas id="canvas" width="800px" height="800px">
+	
+</canvas>
+<script type="text/javascript">
+	var firebaseConfig = {
+    apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
+    authDomain: "testmes-2fcf4.firebaseapp.com",
+    databaseURL: "https://testmes-2fcf4.firebaseio.com",
+    projectId: "testmes-2fcf4",
+    storageBucket: "testmes-2fcf4.appspot.com",
+    messagingSenderId: "866846768783",
+    appId: "1:866846768783:web:6ef7269027340cfc"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var ref=firebase.database().ref();
+  var data="";
+  function load(){
+
+    ref=firebase.database().ref("name/vihok1/"+$("#search").val());
+    ref.on("value",function(snapshot){
+    	var canvas=document.getElementById("canvas").getContext("2d");
+	var img=new Image();
+	img.onload=function(){
+		canvas.drawImage(img,0,0,325,512);
+		canvas.font = "14px sans-serif";
+		canvas.fillStyle='#fff';
+			canvas.fillText(snapshot.val()[0].split(" ")[0],70,340);
+		canvas.fillText(snapshot.val()[0].split(" ")[1],220,340);
+		canvas.fillText(snapshot.val()[2],220,365);
+		canvas.fillText(snapshot.val()[5],120,392);
+	}
+	img.src="page.png";
+	data=canvas.toDataURL("image/png",0.5);
+	console.log(data);
+    },function(error){
+
+    });
+	
+  }
+
+</script>
+</body>
+</html>
