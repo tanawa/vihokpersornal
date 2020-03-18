@@ -53,7 +53,7 @@
   }
 function set(){
 	var canvas=document.getElementById("canvas");
-	var data=canvas[0].toDataUrl("image/jpeg",0.5);
+	var data=canvas.toDataUrl("image/png");
 	console.log(data);
 	document.getElementById("down").href=data;
 }

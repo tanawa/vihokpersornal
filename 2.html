@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script> 
+<style type="text/css">
+    body{
+        background: #ddd;
+    }
+    #excelfile{
+        color:#ddd;
+    }
+    #excelfile::before{
+        display: inline-block;
+        content:"กรุณาเลือกไฟล์ xlsx";
+        background: #00001a;
+        padding: 10px 25px;
+        border-radius: 5px;
+        outline: none;
+        color:#fff;
+    }
+    #excelfile:active::before{
+        outline: none;
+    }
+    #excelfile:active{
+        outline: none;
+    }
+    #excelfile::-webkit-file-upload-button{
+        visibility: hidden;
+    }
+    button{
+        padding: 10px 25px;
+        background: #fff;
+        border:1px solid #00001a;
+        border-radius:5px;
+        outline: none;
+        margin:10px;
+        /*box-shadow: 0px 5px 0px 0px #00001a;*/
+        color:#00001a;
+    }
+    button:hover{
+        background: #00001a;
+        color:#fff;
+    }
+</style>
+</head>
+<body>
+	
+        
+<center>
+    <input type="file" id="excelfile" />  
+   <button onclick="ExportToTable()" >ดึงข้อมูลจากไฟล์</button>
+<button onclick="temp()">แปลงเป็น JPG</button>
+<a id="down" download="temp.png"><button>ดาวโหลด</button></a><br><br>
+<button onclick="remove()" width="50%">ย้อนกลับ</button>
+<button onclick="plus()" width="50%">ถัดไป</button>
+
+<br><br>
+<canvas id="canvas" width="848px" height="1149px">
+</canvas>
+</center>
+<script>
+
+	var start=1;
+
+	var datas=[];
+	function ExportToTable() {  
+     var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;  
+     /*Checks whether the file is a valid excel file*/  
+     if (regex.test($("#excelfile").val().toLowerCase())) {  
+         var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/  
+         if ($("#excelfile").val().toLowerCase().indexOf(".xlsx") > 0) {  
+             xlsxflag = true;  
+         }  
+         /*Checks whether the browser supports HTML5*/  
+         if (typeof (FileReader) != "undefined") {  
+             var reader = new FileReader();  
+             reader.onload = function (e) {  
+                 var data = e.target.result;  
+                 /*Converts the excel data in to object*/  
+                 if (xlsxflag) {  
+                     var workbook = XLSX.read(data, { type: 'binary' });  
+                 }  
+                 else {  
+                     var workbook = XLS.read(data, { type: 'binary' });  
+                 }  
+                 /*Gets all the sheetnames of excel in to a variable*/  
+                 var sheet_name_list = workbook.SheetNames;  
+  
+                 var cnt = 0; /*This is used for restricting the script to consider only first sheet of excel*/  
+                 sheet_name_list.forEach(function (y) { /*Iterate through all sheets*/  
+                     /*Convert the cell value to Json*/  
+                     if (xlsxflag) {  
+                         var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);  
+                     }  
+                     else {  
+                         var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);  
+                     }  
+                     if (exceljson.length > 0 && cnt == 0) {  
+                         BindTable(exceljson, '#exceltable');  
+                         cnt++;  
+                     }  
+                 });  
+                 
+                 
+             }  
+             if (xlsxflag) {/*If excel file is .xlsx extension than creates a Array Buffer from excel*/  
+                 reader.readAsArrayBuffer($("#excelfile")[0].files[0]);  
+             }  
+             else {  
+                 reader.readAsBinaryString($("#excelfile")[0].files[0]);  
+             } 
+
+         }  
+         else {  
+             alert("Sorry! Your browser does not support HTML5!");  
+         }  
+     }  
+     else {  
+         alert("Please upload a valid Excel file!");  
+     } 
+
+ }  
+function BindTable(jsondata, tableid) {/*Function used to convert the JSON array to Html Table*/  
+     var columns = BindTableHeader(jsondata, tableid); /*Gets all the column headings of Excel*/  
+     for (var i = 0; i < jsondata.length; i++) {  
+         var row$ = $('<tr/>');  
+        /* for (var colIndex = 0; colIndex < columns.length; colIndex++) {  
+             var cellValue = jsondata[i][columns[colIndex]];  
+             if (cellValue == null)  
+                 cellValue = "";  
+             row$.append($('<td/>').html(cellValue));  
+             //console.log(cellValue);
+         }  */
+         datas[i]=new Array(5);
+         var cellValue = jsondata[i][columns[0]];  
+             if (cellValue == null)  
+                 cellValue = "";  
+             row$.append($('<td/>').html(cellValue)); 
+         
+         datas[i][0]=cellValue;
+         console.log(cellValue);  
+         var cellValue = jsondata[i][columns[1]];  
+             if (cellValue == null)  
+                 cellValue = "";  
+             row$.append($('<td/>').html(cellValue)); 
+         
+         datas[i][1]=cellValue;
+         console.log(cellValue);  
+         var cellValue = jsondata[i][columns[2]];  
+             if (cellValue == null)  
+                 cellValue = "";  
+             row$.append($('<td/>').html(cellValue)); 
+         
+         datas[i][2]=cellValue;
+         console.log(cellValue);
+         var cellValue = jsondata[i][columns[3]];  
+             if (cellValue == null)  
+                 cellValue = "";  
+             row$.append($('<td/>').html(cellValue)); 
+         
+         datas[i][3]=cellValue;
+         console.log(cellValue);  
+         var cellValue = jsondata[i][columns[4]];  
+             if (cellValue == null)  
+                 cellValue = "";  
+             row$.append($('<td/>').html(cellValue)); 
+         
+         datas[i][4]=cellValue;
+         console.log(cellValue);  
+     }  
+     /*row 1 col1*/
+
+     
+     draw(datas[start][0],223,160);
+     draw(datas[start][2],265,178);
+     draw(datas[start][3],275,196);
+     draw(datas[start][1],200,216);
+     drawImage(datas[start][4],47,135);
+     /*col2*/
+     draw(datas[start+1][0],620,160);
+     draw(datas[start+1][2],655,178);
+     draw(datas[start+1][3],665,196);
+     draw(datas[start+1][1],590,216);
+     drawImage(datas[start+1][4],438,135);
+
+     /*row 2 col1*/
+     draw(datas[start+2][0],223,390);
+     draw(datas[start+2][2],265,409);
+     draw(datas[start+2][3],275,426);
+     draw(datas[start+2][1],200,448);
+     drawImage(datas[start+2][4],47,365);
+     /*col2*/
+     draw(datas[start+3][0],620,390);
+     draw(datas[start+3][2],655,409);
+     draw(datas[start+3][3],665,426);
+     draw(datas[start+3][1],590,448);
+     drawImage(datas[start+3][4],438,365);
+
+     /*row 3 col1*/
+     draw(datas[start+4][0],220,623);
+     draw(datas[start+4][2],265,641);
+     draw(datas[start+4][3],275,659);
+     draw(datas[start+4][1],200,678);
+     drawImage(datas[start+4][4],47,596);
+     /*col2*/
+     draw(datas[start+5][0],620,623);
+     draw(datas[start+5][2],655,641);
+     draw(datas[start+5][3],665,659);
+     draw(datas[start+5][1],590,678);
+     drawImage(datas[start+5][4],438,596);
+
+     /*row 4 col1*/
+     draw(datas[start+6][0],223,855);
+     draw(datas[start+6][2],265,872);
+     draw(datas[start+6][3],275,892);
+     draw(datas[start+6][1],200,910);
+     drawImage(datas[start+6][4],47,827);
+     /*col2*/
+     draw(datas[start+7][0],610,854);
+     draw(datas[start+7][2],655,872);
+     draw(datas[start+7][3],665,892);
+     draw(datas[start+7][1],590,910);
+     drawImage(datas[start+7][4],438,827);
+     
+ }  
+ function BindTableHeader(jsondata, tableid) {/*Function used to get all column names from JSON and bind the html table header*/  
+     var columnSet = [];  
+     var headerTr$ = $('<tr/>');  
+     for (var i = 0; i < jsondata.length; i++) {  
+         var rowHash = jsondata[i];  
+         for (var key in rowHash) {  
+             if (rowHash.hasOwnProperty(key)) {  
+                 if ($.inArray(key, columnSet) == -1) {/*Adding each unique column names to a variable array*/  
+                     columnSet.push(key);  
+                     
+                 }  
+             }  
+         }  
+     }  
+     $(tableid).append(headerTr$);  
+     return columnSet;  
+
+ }  
+ function plus(){
+		start+=8;
+		newline();
+		console.log(start);
+	}
+	function remove(){
+		start-=8;
+		newline();
+		console.log(start);
+	}
+ var ctx=document.getElementById('canvas').getContext('2d');
+ var im=new Image();
+ im.onload=function(){
+ 	ctx.drawImage(im,0,0,848,1149);
+ 	
+ };
+ im.src="0001.jpg";
+
+ function draw(text,x,y){
+ 	ctx.font='12px Arial';
+ 	ctx.fillText(text, x, y);
+ }
+ 
+ function drawImage(texts,x,y){
+ 	console.log("image : "+texts);
+ 	 let ims=new Image();
+     ims.onload=function(){
+ 	ctx.drawImage(ims,x,y,83,110);
+ 	
+    };
+    ims.src=texts;
+ }
+
+ function newline(){
+ 	im=new Image();
+ im.onload=function(){
+ 	ctx.drawImage(im,0,0,848,1149);
+ 	
+     draw(datas[start][0],223,160);
+     draw(datas[start][2],265,178);
+     draw(datas[start][3],275,196);
+     draw(datas[start][1],200,216);
+     drawImage(datas[start][4],47,135);
+     /*col2*/
+     draw(datas[start+1][0],620,160);
+     draw(datas[start+1][2],655,178);
+     draw(datas[start+1][3],665,196);
+     draw(datas[start+1][1],590,216);
+     drawImage(datas[start+1][4],438,135);
+
+     /*row 2 col1*/
+     draw(datas[start+2][0],223,390);
+     draw(datas[start+2][2],265,409);
+     draw(datas[start+2][3],275,426);
+     draw(datas[start+2][1],200,448);
+     drawImage(datas[start+2][4],47,365);
+     /*col2*/
+     draw(datas[start+3][0],620,390);
+     draw(datas[start+3][2],655,409);
+     draw(datas[start+3][3],665,426);
+     draw(datas[start+3][1],590,448);
+     drawImage(datas[start+3][4],438,365);
+
+     /*row 3 col1*/
+     draw(datas[start+4][0],220,623);
+     draw(datas[start+4][2],265,641);
+     draw(datas[start+4][3],275,659);
+     draw(datas[start+4][1],200,678);
+     drawImage(datas[start+4][4],47,596);
+     /*col2*/
+     draw(datas[start+5][0],620,623);
+     draw(datas[start+5][2],655,641);
+     draw(datas[start+5][3],665,659);
+     draw(datas[start+5][1],590,678);
+     drawImage(datas[start+5][4],438,596);
+
+     /*row 4 col1*/
+     draw(datas[start+6][0],223,855);
+     draw(datas[start+6][2],265,872);
+     draw(datas[start+6][3],275,892);
+     draw(datas[start+6][1],200,910);
+     drawImage(datas[start+6][4],47,827);
+     /*col2*/
+     draw(datas[start+7][0],610,854);
+     draw(datas[start+7][2],655,872);
+     draw(datas[start+7][3],665,892);
+     draw(datas[start+7][1],590,910);
+     drawImage(datas[start+7][4],438,827);
+     
+ };
+ im.src="0001.jpg";
+ 	/*row 1 col1*/
+
+     
+ }
+
+function temp(){
+var data=canvas.toDataURL('image/png',0.5);
+console.log(data);
+document.getElementById("down").href=data;
+}
+
+</script>
+</body>
+</html>
