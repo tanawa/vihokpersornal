@@ -52,8 +52,8 @@
 	
   }
 function set(){
-	var canvas=document.getElementById("canvas").getContext("2d");
-	var data=canvas.toDataUrl("image/jpeg",0.5);
+	var canvas=document.getElementById("canvas");
+	var data=canvas[0].toDataUrl("image/jpeg",0.5);
 	console.log(data);
 	document.getElementById("down").href=data;
 }
