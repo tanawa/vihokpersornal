@@ -53,7 +53,7 @@
   }
 function set(){
 	var canvas=document.getElementById("canvas").getContext("2d");
-	data=canvas.toDataUrl("image/jpeg");
+	var data=canvas.toDataUrl("image/jpeg");
 	console.log(data);
 	document.getElementById("down").href=data;
 }
