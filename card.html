@@ -44,8 +44,9 @@
 		canvas.fillText(snapshot.val()[5],120,392);
 	}
 	img.src="page.png";
-	data=canvas.toDataURL("image/png",0.5);
+	data=canvas.toDataUrl("image/jpeg");
 	console.log(data);
+	$("#down").href=data;
     },function(error){
 
     });
