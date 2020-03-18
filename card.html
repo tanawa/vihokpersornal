@@ -7,8 +7,14 @@
 	<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style type="text/css">
+		canvas{
+			box-shadow: 0px 0px 5px 0px #000;
+		}
+	</style>
 </head>
 <body>
+	<center>
 	<input type="text" name="" id="search">
 <button onclick="load()">load</button><br>
 <button onclick="set()">set</button>
@@ -16,6 +22,7 @@
 <canvas id="canvas" width="325px" height="512px">
 	
 </canvas>
+</center>
 <script type="text/javascript">
 	var canva=document.getElementById("canvas");
 	var firebaseConfig = {
@@ -46,7 +53,9 @@
 		canvas.fillText(snapshot.val()[2],120,392);
 	}
 	img.src="page.png";
-	
+	var data=canva.toDataURL("image/png");
+	console.log(data);
+	document.getElementById("down").href=data;
     },function(error){
 
     });
@@ -54,9 +63,7 @@
   }
 function set(){
 	
-	var data=canva.toDataURL("image/png");
-	console.log(data);
-	document.getElementById("down").href=data;
+	
 }
 </script>
 </body>
