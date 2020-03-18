@@ -11,7 +11,7 @@
 <body>
 	<input type="text" name="" id="search">
 <button onclick="load()">load</button><br>
-<button onclick="set()">download</button>
+<button onclick="set()">set</button>
 <a href="#" download="บัตรวิหค.png" id="down">download</a><br>
 <canvas id="canvas" width="325px" height="512px" crossOrigin="Anonymous">
 	
@@ -52,6 +52,7 @@
 	
   }
 function set(){
+	var canvas=document.getElementById("canvas").getContext("2d");
 	data=canvas.toDataUrl("image/jpeg");
 	console.log(data);
 	document.getElementById("down").href=data;
