@@ -10,7 +10,8 @@
 </head>
 <body>
 	<input type="text" name="" id="search">
-<button onclick="load()">left</button><br>
+<button onclick="load()">load</button><br>
+<button onclick="set()">download</button>
 <a href="#" download="บัตรวิหค.png" id="down">download</a><br>
 <canvas id="canvas" width="325px" height="512px" crossOrigin="Anonymous">
 	
@@ -48,11 +49,13 @@
     },function(error){
 
     });
+	
+  }
+function set(){
 	data=canvas.toDataUrl("image/jpeg");
 	console.log(data);
 	document.getElementById("down").href=data;
-  }
-
+}
 </script>
 </body>
 </html>
