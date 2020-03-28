@@ -10,15 +10,15 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script>
-  var firebaseConfig = {
-    apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
-    authDomain: "testmes-2fcf4.firebaseapp.com",
-    databaseURL: "https://testmes-2fcf4.firebaseio.com",
-    projectId: "testmes-2fcf4",
-    storageBucket: "testmes-2fcf4.appspot.com",
-    messagingSenderId: "866846768783",
-    appId: "1:866846768783:web:6ef7269027340cfc"
-  };
+  		var firebaseConfig = {
+    		apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
+    		authDomain: "testmes-2fcf4.firebaseapp.com",
+    		databaseURL: "https://testmes-2fcf4.firebaseio.com",
+    		projectId: "testmes-2fcf4",
+    		storageBucket: "testmes-2fcf4.appspot.com",
+    		messagingSenderId: "866846768783",
+    		appId: "1:866846768783:web:6ef7269027340cfc"
+  		};
     </script>
     <style type="text/css">
     	td{
@@ -36,130 +36,143 @@
 </head>
 <body>
 	<center>
-	<table cellpadding="0" cellspacing="20">
-		<tr>
-			<td>
-				<a>เงินรวมสุทธิ<a>
-			</td>
-			<td>
-				<a>ถอนใช้ส่วนตัว<a>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<p id="sum"></p>
-			</td>
-			<td>
-				<p id="withdraw"></p>
-			</td>
-		</tr>
-	</table>
-	<select id="select">
-		<option>+ ถอนใช้ส่วนตัว</option>
-		<option>- ถอนใช้ส่วนตัว</option>
-		<option>รายรับ</option>
-		<option>รายจ่าย</option>
-		<option>ทรัพย์สิน</option>
-	</select>
-	<input type="number" name="" placeholder="จำนวนเงิน" id="money">
-	<input type="text" name="" placeholder="หมายเหตุ" id="text">
-	<input type="number" name="" placeholder="รหัสเพิ่มข้อมูล" id="password">
-<button onclick="add()">บันทึก</button>
-	
-	<table id="table" cellpadding="10" cellspacing="0">
-		<tr id="th"><td>เวลา</td><td>ประเภท</td><td>จำนวนเงิน</td><td>หมายเหตุ</td><td>ผู้ลงทะเบียน</td></tr>
-	</table>
-	
-	
-</center>
-<script type="text/javascript">
-	var summoney=0;
-	var sumwithdraw=0;
-	var value=0;
-	var start=true;
-	firebase.initializeApp(firebaseConfig);
-	var ref=firebase.database().ref("money/sum");
-	ref.on("value",function(snapshot){
-		summoney=snapshot.val();
-		$("#sum").text(summoney+" บาท");
-	},function(err){
+		<table cellpadding="0" cellspacing="20">
+			<tr>
+				<td>
+					<a>เงินรวมสุทธิ<a>
+				</td>
+				<td>
+					<a>ถอนใช้ส่วนตัว<a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<p id="sum"></p>
+				</td>
+				<td>
+					<p id="withdraw"></p>
+				</td>
+			</tr>
+		</table>
 
-	});
-	ref=firebase.database().ref("money/withdraw");
-	ref.on("value",function(snapshot){
-		$("#withdraw").text(snapshot.val()+" บาท");
-		sumwithdraw=snapshot.val();
-	},function(err){
+		<select id="select">
+			<option>+ ถอนใช้ส่วนตัว</option>
+			<option>- ถอนใช้ส่วนตัว</option>
+			<option>รายรับ</option>
+			<option>รายจ่าย</option>
+			<option>ทรัพย์สิน</option>
+		</select>
 
-	});
-	ref=firebase.database().ref("money/about");
-	ref.on("value",function(snapshot){
-		if(snapshot.val()==null){
-			value=0;
-		}else{
-			if(start){
-			snapshot.forEach(function(e){
-				value+=1;
-			    console.log(e.val());
-			    start=false;
-			    $("#table").append("<tr id='tr'><td>"+e.val()[0]+"</td><td>"+e.val()[1]+"</td><td>"+e.val()[2]+"</td><td>"+e.val()[3]+"</td><td>"+e.val()[4]+"</td></tr>");
-		});
-		}else{
-			
-			$("#table").append("<tr id='tr'><td>"+snapshot.val()[value][0]+"</td><td>"+snapshot.val()[value][1]+"</td><td>"+snapshot.val()[value][2]+"</td><td>"+snapshot.val()[value][3]+"</td><td>"+snapshot.val()[value][4]+"</td></tr>");
-			value+=1;
-		}
-		}
-		
-	},function(err){
+		<input type="number" name="" placeholder="จำนวนเงิน" id="money">
+		<input type="text" name="" placeholder="หมายเหตุ" id="text">
+		<input type="number" name="" placeholder="รหัสเพิ่มข้อมูล" id="password">
+		<button onclick="add()">บันทึก</button>
 
-	});
-	function add(){
-		let text=$("#text").val();
-		let password=$("#password").val();
-		ref=firebase.database().ref("persorm/"+password);
-		ref.once("value",function(snapshot){
-			if(snapshot.val()!=null){
-				let number=parseInt($("#money").val());
-		let type=$("select").val();
-		if(type=="+ ถอนใช้ส่วนตัว"){
-			if(number<summoney){
-				summoney-=number;
-				sumwithdraw+=number;
-			}
-		}else if(type=="- ถอนใช้ส่วนตัว"){
-			if(number<summoney){
-				summoney+=number;
-				sumwithdraw-=number;
-			}
-		}else if(type=="รายรับ"){
-			summoney+=number;
-		}else if(type=="รายจ่าย"){
-			summoney-=number;
-		}else if(type=="ทรัพย์สิน"){
-			summoney+=number;
-		}
-		if(number<summoney){
-			ref=firebase.database().ref("money");
-		ref.child("sum").set(summoney);
-		ref.child("withdraw").set(sumwithdraw);
-		ref=firebase.database().ref("money/about");
-		let da=new Date();
-		ref.child(value).set([" "+da+" ",type,number,text,snapshot.val()]);
-		$("#text").val("");
-		$("#money").val("");
-		$("#password").val("");
-		swal("แจ้งเตือน","เพิ่มข้อมูลสำเร็จ","success");
-		}else{
-		swal("แจ้งเตือน","คุณระบุจำนวนเงินเกิน","warning");
-		}
-		
-		}
+		<table id="table" cellpadding="10" cellspacing="0">
+			<tr id="th">
+				<td>เวลา</td>
+				<td>ประเภท</td>
+				<td>จำนวนเงิน</td>
+				<td>หมายเหตุ</td>
+				<td>ผู้ลงทะเบียน</td>
+			</tr>
+		</table>
+	</center>
+
+	<script type="text/javascript">
+		firebase.initializeApp(firebaseConfig);
+
+		var summoney=0;
+		var sumwithdraw=0;
+		var value=0;
+		var start=true;
+
+		var ref=firebase.database().ref("money/sum");
+		ref.on("value",function(snapshot){
+			summoney=snapshot.val();
+			$("#sum").text(summoney+" บาท");
 		},function(err){
 
 		});
+
+		ref=firebase.database().ref("money/withdraw");
+		ref.on("value",function(snapshot){
+			$("#withdraw").text(snapshot.val()+" บาท");
+			sumwithdraw=snapshot.val();
+		},function(err){
+
+		});
+
+		ref=firebase.database().ref("money/about");
+		ref.on("value",function(snapshot){
+			if(snapshot.val()==null){
+				value=0;
+			}else{
+				if(start){
+				snapshot.forEach(function(e){
+					value+=1;
+			    	console.log(e.val());
+			    	start=false;
+			    	$("#table").append("<tr id='tr'><td>"+e.val()[0]+"</td><td>"+e.val()[1]+"</td><td>"+e.val()[2]+"</td><td>"+e.val()[3]+"</td><td>"+e.val()[4]+"</td></tr>");
+				});
+				}else{
+					$("#table").append("<tr id='tr'><td>"+snapshot.val()[value][0]+"</td><td>"+snapshot.val()[value][1]+"</td><td>"+snapshot.val()[value][2]+"</td><td>"+snapshot.val()[value][3]+"</td><td>"+snapshot.val()[value][4]+"</td></tr>");
+					value+=1;
+				}
+			}
+		},function(err){
+
+		});
+
+		function add(){
+			let text=$("#text").val();
+			let password=$("#password").val();
+			ref=firebase.database().ref("persorm/"+password);
+			ref.once("value",function(snapshot){
+				if(snapshot.val()!=null){
+					let number=parseInt($("#money").val());
+					let type=$("select").val();
+					if(type=="+ ถอนใช้ส่วนตัว"){
+						if(number<summoney){
+							summoney-=number;
+							sumwithdraw+=number;
+						}
+					}else if(type=="- ถอนใช้ส่วนตัว"){
+						if(number<summoney){
+							summoney+=number;
+							sumwithdraw-=number;
+						}
+					}else if(type=="รายรับ"){
+						summoney+=number;
+					}else if(type=="รายจ่าย"){
+						summoney-=number;
+					}else if(type=="ทรัพย์สิน"){
+						summoney+=number;
+					}
+					if(number<summoney){
+
+						ref=firebase.database().ref("money");
+						ref.child("sum").set(summoney);
+						ref.child("withdraw").set(sumwithdraw);
+
+						ref=firebase.database().ref("money/about");
+						
+						let da=new Date();
+						ref.child(value).set([" "+da+" ",type,number,text,snapshot.val()]);
 		
-	}
-</script>
+						$("#text").val("");
+						$("#money").val("");
+						$("#password").val("");
+						
+						swal("แจ้งเตือน","เพิ่มข้อมูลสำเร็จ","success");
+					}else{
+						swal("แจ้งเตือน","คุณระบุจำนวนเงินเกิน","warning");
+					}
+				}
+			},function(err){
+
+			});	
+		}
+	</script>
 </body>
 </html>

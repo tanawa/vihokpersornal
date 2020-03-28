@@ -11,76 +11,91 @@
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script>
-  var firebaseConfig = {
-    apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
-    authDomain: "testmes-2fcf4.firebaseapp.com",
-    databaseURL: "https://testmes-2fcf4.firebaseio.com",
-    projectId: "testmes-2fcf4",
-    storageBucket: "testmes-2fcf4.appspot.com",
-    messagingSenderId: "866846768783",
-    appId: "1:866846768783:web:6ef7269027340cfc"
-  };
-    </script>
-    
+		var firebaseConfig = {
+			apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
+			authDomain: "testmes-2fcf4.firebaseapp.com",
+			databaseURL: "https://testmes-2fcf4.firebaseio.com",
+			projectId: "testmes-2fcf4",
+			storageBucket: "testmes-2fcf4.appspot.com",
+			messagingSenderId: "866846768783",
+			appId: "1:866846768783:web:6ef7269027340cfc"
+		};
+    </script>   
 </head>
 <body>
-    
     <br>
-
     <center>
-        <!--<img src="headtitle.png" width="20%">-->
-    <br>
-        <select id="type" onchange="change()">
-        <option value="vihok1">ชมรมวิหคอาสา (ธรรมศาสตร์)</option>
-        <option value="vihok2">ชมรมวิหคอาสา (ต่างสถาบัน)</option>
-        <option value="rd">เจ้าหน้าที่วิทยุ</option>
-        <option value="alumni">ศิษย์เก่า</option>
-    </select>
-    <div class="form">
-	<button onclick="closepopup()" class="close">ปิด</button><br>
-	<table>
-		<tr><td><input type="text" name="" placeholder="ชื่อ – สกุล" id="FullName"></td><td><input type="text" name="" placeholder="ชื่อเล่น" id="NickName"></td></tr>
-		<tr><td><input type="text" name="" placeholder="รหัสประจำตัววิหค" id="Number"></td><td><input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone"></td></tr>
-		<tr><td><input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date"></td><td><input type="number" name="" placeholder="เลขประจำตัวนักเรียน" id="NumberS"></td></tr>
-		<tr><td><input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password"></td><td></td></tr>
-	</table>
-        
-	
-	
-	
-	
-	
-	
-	
-	<br><button onclick="send()" class="btn-successful">บันทึกลงฐานข้อมูล</button>
+    	<!--<img src="headtitle.png" width="20%">-->
+    	<br>
+    	<select id="type" onchange="change()">
+    	    <option value="vihok1">ชมรมวิหคอาสา (ธรรมศาสตร์)</option>
+    	    <option value="vihok2">ชมรมวิหคอาสา (ต่างสถาบัน)</option>
+    	    <option value="rd">เจ้าหน้าที่วิทยุ</option>
+    	    <option value="alumni">ศิษย์เก่า</option>
+    	</select>
 
-</div>
+    	<div class="form">
+			<button onclick="closepopup()" class="close">ปิด</button>
+			<br>
+			<table>
+				<tr>
+					<td><input type="text" name="" placeholder="ชื่อ – สกุล" id="FullName"></td>
+					<td><input type="text" name="" placeholder="ชื่อเล่น" id="NickName"></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="" placeholder="รหัสประจำตัววิหค" id="Number"></td>
+					<td><input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone"></td>
+				</tr>
+				<tr>
+					<td><input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date"></td>
+					<td><input type="number" name="" placeholder="เลขประจำตัวนักเรียน" id="NumberS"></td>
+				</tr>
+				<tr>
+					<td><input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password"></td>
+					<td></td>
+				</tr>
+			</table>
+			<br>
+			<button onclick="send()" class="btn-successful">บันทึกลงฐานข้อมูล</button>
+		</div>
 
-    <button onclick="download()" class="btn-successful">ดาวน์โหลด</button><button onclick="popup()" class="btn-successful">เพิ่มข้อมูล</button>
+    	<button onclick="download()" class="btn-successful">ดาวน์โหลด</button>
+    	<button onclick="popup()" class="btn-successful">เพิ่มข้อมูล</button>
+    	
     </center>
 	<script type="text/javascript">
+
     	$(".form").css("display","none");
+
     	function popup(){
     		$(".form").css("display","block");
     	}
+
     	function closepopup(){
     		$(".form").css("display","none");
     	}
     </script>
 	<center>
 		<div class="show-table">
-<table id="table" cellpadding="10" cellspacing="0">
-	<tr id="th">
-		<td>ชื่อ – สกุล</td><td>ชื่อเล่น</td><td>รหัสประจำตัว</td><td>หมายเลขโทรศัพท์</td><td>วัน เดือน ปีเกิด</td><td>เลขประจำตัวนักเรียน</td><td>แก้ไข</td><td>ลบ</td>
+			<table id="table" cellpadding="10" cellspacing="0">
+				<tr id="th">
+					<td>ชื่อ – สกุล</td>
+					<td>ชื่อเล่น</td>
+					<td>รหัสประจำตัว</td>
+					<td>หมายเลขโทรศัพท์</td>
+					<td>วัน เดือน ปีเกิด</td>
+					<td>เลขประจำตัวนักเรียน</td>
+					<td>แก้ไข</td>
+					<td>ลบ</td>
+				</tr>
+			</table>
+		</div>
+	</center>
+	<br>
+	<script type="text/javascript">
 
-	</tr>
-</table>
-</div>
-</center>
-<br>
-
-<script type="text/javascript">
 	firebase.initializeApp(firebaseConfig);
+
 	let type=$("#type").val();
     ref=firebase.database().ref("name/"+type);
     ref.on("value",function(snapshot){
@@ -91,6 +106,7 @@
     },function(err){
     	console.log(err);
     });
+
     function download(){
     	swal({
     		title:"แจ้งเตือน",
@@ -110,6 +126,7 @@
     		}
     	});
     }
+
     function change(){
     	let type=$("#type").val();
     	ref=firebase.database().ref("name/"+type);
@@ -122,6 +139,7 @@
     		console.log(err);
     	});
     }
+
     function load(tag){
     	$(".form").css("display","block");
     	swal("แก้ไขข้อมูลของ"+tag);
@@ -140,106 +158,95 @@
     }
     function deletes(tag){
         let type=$("#type").val();
-            if(type!="alumni"){
-                swal({
+        if(type!="alumni"){
+            swal({
             title:"แจ้งเตือน",
             text:"คุณต้องการย้ายเป็นศิษย์เก่าหรือไม่",
             icon:"warning",
             buttons:true,
             dangerMode:true,
-        }).then((download)=>{
-
-            if(download){
-               
-        
-        ref=firebase.database().ref("name/"+type+"/"+tag);
-        ref.once("value",function(snapshot){
-            ref=firebase.database().ref("name/"+type+"/"+tag);
-        ref.remove();
-            ref=firebase.database().ref("name/alumni/"+tag);
-        ref.child(0).set(snapshot.val()[0]);
-        ref.child(1).set(snapshot.val()[1]);
-        ref.child(2).set(snapshot.val()[2]);
-        ref.child(3).set(snapshot.val()[3]);
-        ref.child(4).set(snapshot.val()[4]);
-        ref.child(4).set(snapshot.val()[5]);
-        swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
-        },function(err){
-            console.err("Error"+err);
-        });
-
-                
-            }else{
-        ref=firebase.database().ref("name/"+type+"/"+tag);
-        ref.remove();
-        swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
-            }
-        });
-            }else{
-                swal({
+        	}).then((download)=>{
+            	if(download){
+        			ref=firebase.database().ref("name/"+type+"/"+tag);
+        			ref.once("value",function(snapshot){
+            			ref=firebase.database().ref("name/"+type+"/"+tag);
+        				ref.remove();
+            			ref=firebase.database().ref("name/alumni/"+tag);
+        				ref.child(0).set(snapshot.val()[0]);
+        				ref.child(1).set(snapshot.val()[1]);
+        				ref.child(2).set(snapshot.val()[2]);
+        				ref.child(3).set(snapshot.val()[3]);
+        				ref.child(4).set(snapshot.val()[4]);
+        				ref.child(4).set(snapshot.val()[5]);
+        				swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
+        			},function(err){
+            		console.err("Error"+err);
+        			});   
+            	}else{
+        			ref=firebase.database().ref("name/"+type+"/"+tag);
+        			ref.remove();
+        			swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
+            	}
+        	});
+        }else{
+            swal({
             title:"แจ้งเตือน",
             text:"คุณต้องการย้ายเป็นเป็นศิษย์ปัจจุบันหรือไม่",
             icon:"warning",
             buttons:true,
             dangerMode:true,
-        }).then((download)=>{
-
-            if(download){
-               
-        
-        ref=firebase.database().ref("name/"+type+"/"+tag);
-        ref.once("value",function(snapshot){
-            ref=firebase.database().ref("name/"+type+"/"+tag);
-        ref.remove();
-            ref=firebase.database().ref("name/vihok1/"+tag);
-        ref.child(0).set(snapshot.val()[0]);
-        ref.child(1).set(snapshot.val()[1]);
-        ref.child(2).set(snapshot.val()[2]);
-        ref.child(3).set(snapshot.val()[3]);
-        ref.child(4).set(snapshot.val()[4]);
-        ref.child(4).set(snapshot.val()[5]);
-
-        swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
-        },function(err){
-            console.err("Error"+err);
-        });
-
-                
-            }else{
-        ref=firebase.database().ref("name/"+type+"/"+tag);
-        ref.remove();
-        swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
-            }
-        });
-            }
-        
-        
+        	}).then((download)=>{
+            	if(download){
+        			ref=firebase.database().ref("name/"+type+"/"+tag);
+        			ref.once("value",function(snapshot){
+            			ref=firebase.database().ref("name/"+type+"/"+tag);
+        				ref.remove();
+            			ref=firebase.database().ref("name/vihok1/"+tag);
+        				ref.child(0).set(snapshot.val()[0]);
+        				ref.child(1).set(snapshot.val()[1]);
+        				ref.child(2).set(snapshot.val()[2]);
+        				ref.child(3).set(snapshot.val()[3]);
+        				ref.child(4).set(snapshot.val()[4]);
+        				ref.child(4).set(snapshot.val()[5]);
+		        		swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
+        			},function(err){
+            			console.err("Error"+err);
+        			});   
+           		}else{
+        			ref=firebase.database().ref("name/"+type+"/"+tag);
+        			ref.remove();
+        			swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
+            	}
+        	});
+        }  
         //window.location.reload();
     }
+
 	function send(){
         let password=$("#password").val();
         ref=firebase.database().ref("persor/"+password);
         ref.once("value",function(snapshot){
-        if(snapshot.val()!=null){
-            let type=$("#type").val();
-        ref=firebase.database().ref("name/"+type);
-        let FullName=$("#FullName").val();
-        let NickName=$("#NickName").val();
-        let number=$("#Number").val();
-        let Phone=$("#Phone").val();
-        let date=$("#Date").val();
-        let NumberS=$("#NumberS").val();
-        console.log("ส่งข้อมูล :"+FullName+":"+NickName+":"+number+":"+Phone+":"+date+":"+NumberS);
-        ref.child(number).set([FullName,NickName,number,Phone,date,NumberS]);
-        change();
-        swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success")
-        }
-    },function(err){
+        	if(snapshot.val()!=null){
+            	let type=$("#type").val();
+        		ref=firebase.database().ref("name/"+type);
+        		let FullName=$("#FullName").val();
+        		let NickName=$("#NickName").val();
+        		let number=$("#Number").val();
+        		let Phone=$("#Phone").val();
+        		let date=$("#Date").val();
+        		let NumberS=$("#NumberS").val();
+        		console.log("ส่งข้อมูล :"+FullName+":"+NickName+":"+number+":"+Phone+":"+date+":"+NumberS);
+        		ref.child(number).set([FullName,NickName,number,Phone,date,NumberS]);
+        		change();
+        		swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success")
+        	}
+    	},function(err){
 
-    });/*
-		*/
+    	});
 	}
-</script>
+
+	</script>
+
 </body>
 </html>
 
