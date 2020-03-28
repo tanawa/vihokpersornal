@@ -9,6 +9,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="excelexportjs.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<script>
   var firebaseConfig = {
     apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
@@ -20,74 +21,7 @@
     appId: "1:866846768783:web:6ef7269027340cfc"
   };
     </script>
-    <style type="text/css">
-    	@import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
-    	body{
-    		padding: 0;
-    		margin: 0;
-    		font-family: 'Kanit', sans-serif;
-    	}
-    	::-webkit-scrollbar{
-    		width: 1px;
-    	}
-        
-        table{
-            width: 80%;
-            background-color: #006633;
-        }
-        th{
-            background-color: #2A2727;
-            height: 25pt;
-        }
-        tr{
-            font-size: 10pt;
-            text-align: center;
-            color:#B8B8B8;
-        }
-        tr:hover>td{
-            color:#fff;
-            text-shadow: 0px 0px 5px 0px #000;
-        }
-        td>button{
-            font-family: 'Kanit', sans-serif;
-            background-color: #ddd;
-            border:1px solid #ddd;
-            color:#2A2727;
-            border-radius: 15px;
-        }
-        button{
-            font-family: 'Kanit', sans-serif;
-            background-color: #2A2727;
-            border:1px solid #2A2727;
-            color:#ddd;
-            border-radius: 15px;
-            margin:10pt;
-            padding: 5pt 10pt;
-        }
-        input{
-            font-size: 10pt;
-            font-family: 'Kanit', sans-serif;
-            margin: 5pt;
-            padding: 5pt;
-            outline: none;
-            border-radius: 15px;
-            border:0px solid #2A2727;
-            box-shadow: 0px 0px 5px 0px #000;
-        }
-        select{
-            font-size: 10pt;
-            font-family: 'Kanit', sans-serif;
-            margin: 5pt;
-            padding: 5pt;
-            outline: none;
-            border-radius: 15px;
-            border:0px solid #2A2727;
-            box-shadow: 0px 0px 5px 0px #000;
-        }
-        a{
-            font-size: 10pt;
-        }
-    </style>
+    
 </head>
 <body>
     
@@ -99,36 +33,52 @@
         <select id="type" onchange="change()">
         <option value="vihok1">ชมรมวิหคอาสา (ธรรมศาสตร์)</option>
         <option value="vihok2">ชมรมวิหคอาสา (ต่างสถาบัน)</option>
-        <option value="rd">ร.ด. เฉพาะกิจ</option>
+        <option value="rd">เจ้าหน้าที่วิทยุ</option>
         <option value="alumni">ศิษย์เก่า</option>
     </select>
-    <button onclick="download()" class="btn-successful">ดาวน์โหลด</button>
-    </center>
+    <div class="form">
+	<button onclick="closepopup()" class="close">ปิด</button><br>
+	<table>
+		<tr><td><input type="text" name="" placeholder="ชื่อ – สกุล" id="FullName"></td><td><input type="text" name="" placeholder="ชื่อเล่น" id="NickName"></td></tr>
+		<tr><td><input type="text" name="" placeholder="รหัสประจำตัววิหค" id="Number"></td><td><input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone"></td></tr>
+		<tr><td><input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date"></td><td><input type="number" name="" placeholder="เลขประจำตัวนักเรียน" id="NumberS"></td></tr>
+		<tr><td><input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password"></td><td></td></tr>
+	</table>
+        
 	
+	
+	
+	
+	
+	
+	
+	<br><button onclick="send()" class="btn-successful">บันทึกลงฐานข้อมูล</button>
+
+</div>
+
+    <button onclick="download()" class="btn-successful">ดาวน์โหลด</button><button onclick="popup()" class="btn-successful">เพิ่มข้อมูล</button>
+    </center>
+	<script type="text/javascript">
+    	$(".form").css("display","none");
+    	function popup(){
+    		$(".form").css("display","block");
+    	}
+    	function closepopup(){
+    		$(".form").css("display","none");
+    	}
+    </script>
 	<center>
 		<div class="show-table">
 <table id="table" cellpadding="10" cellspacing="0">
-	<tr>
-		<th>ชื่อ – สกุล</th><th>ชื่อเล่น</th><th>รหัสประจำตัว</th><th>หมายเลขโทรศัพท์</th><th>วัน เดือน ปีเกิด</th><th>เลขประจำตัวนักเรียน</th><th>แก้ไข</th><th>ลบ</th>
+	<tr id="th">
+		<td>ชื่อ – สกุล</td><td>ชื่อเล่น</td><td>รหัสประจำตัว</td><td>หมายเลขโทรศัพท์</td><td>วัน เดือน ปีเกิด</td><td>เลขประจำตัวนักเรียน</td><td>แก้ไข</td><td>ลบ</td>
 
 	</tr>
 </table>
 </div>
 </center>
 <br>
-<div class="form">
-	<center>
-        <a>คำเตือน :: โปรดตรวจสอบข้อมูลก่อนทำการบันทึกข้อมูล</a><br><br>
-	<input type="text" name="" placeholder="ชื่อ – สกุล" id="FullName">
-	<input type="text" name="" placeholder="ชื่อเล่น" id="NickName">
-	<input type="text" name="" placeholder="รหัสประจำตัววิหค" id="Number"><br>
-	<input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone">
-	<input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date">
-	<input type="number" name="" placeholder="เลขประจำตัวนักเรียน" id="NumberS">
-	<input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password">
-	<br><button onclick="send()" class="btn-successful">บันทึกลงฐานข้อมูล</button>
-</center>
-</div>
+
 <script type="text/javascript">
 	firebase.initializeApp(firebaseConfig);
 	let type=$("#type").val();
@@ -136,7 +86,7 @@
     ref.on("value",function(snapshot){
     	$(".element").remove();
     	snapshot.forEach(function(data){
-    		$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
+    		$("#table").append("<tr id='tr' class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
     	});
     },function(err){
     	console.log(err);
@@ -166,13 +116,14 @@
     	$(".element").remove();
     	ref.once("value",function(snapshot){
     		snapshot.forEach(function(data){
-    			$("table").append("<tr class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
+    			$("#table").append("<tr id='tr' class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
     		});
     	},function(err){
     		console.log(err);
     	});
     }
     function load(tag){
+    	$(".form").css("display","block");
     	swal("แก้ไขข้อมูลของ"+tag);
     	let type=$("#type").val();
     	ref=firebase.database().ref("name/"+type+"/"+tag);
