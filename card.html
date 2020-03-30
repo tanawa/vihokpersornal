@@ -45,7 +45,6 @@
   var data="";
   var canvas=canva.getContext("2d");
 	var img=new Image();
-	var addimg=new Image();
 	img.onload=function(){
 		canvas.drawImage(img,0,0,325,512);
 		
@@ -59,7 +58,7 @@
     ref=firebase.database().ref("name/vihok1/"+$("#search").val());
     ref.on("value",function(snapshot){
     	
-	addimg.onload=function(){
+	img.onload=function(){
 		canvas.drawImage(img,0,0,325,512);
 		canvas.font = "14px sans-serif";
 		canvas.fillStyle='#fff';
