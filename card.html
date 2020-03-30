@@ -23,7 +23,6 @@
 	<tr><td><canvas id="canvas" width="325px" height="512px">
 	
 </canvas></td><td><input type="text" name="" id="search" placeholder="หมายเลขวิหค"><button onclick="load()">ค้นหาข้อมูลสมาชิกจากฐานข้อมูล</button><br>
-<input type="text" name="" id="addimg" placeholder="กรุณาใส่ URL รูปภาพ"><br>
 	<button onclick="set()">แปลงเป็น PNG</button>
 <a id="down" download="บัตรวิหค.png" ><button>โหลดเป็นไฟล์ภาพ</button></a></td></tr>
 </table>
@@ -62,7 +61,6 @@
     	
 	addimg.onload=function(){
 		canvas.drawImage(img,0,0,325,512);
-		canvas.drawImage(addimg,82,113,156,180);
 		canvas.font = "14px sans-serif";
 		canvas.fillStyle='#fff';
 		canvas.fillText(snapshot.val()[0].split(" ")[0],70,340);
@@ -71,7 +69,6 @@
 		canvas.fillText(snapshot.val()[2],120,392);
 	}
 	img.src="page.png";
-	addimg.src=$("#addimg").val();
 	
     },function(error){
 
