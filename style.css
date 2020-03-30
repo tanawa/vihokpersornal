@@ -1,13 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
-    	body{
+        @import url('https://fonts.googleapis.com/css?family=Kanit&display=swap');
+    	::-webkit-scrollbar{
+            width: 1px;
+        }
+        body{
     		padding: 0;
     		margin: 0;
     		font-family: 'Kanit', sans-serif;
     	}
-    	::-webkit-scrollbar{
-    		width: 1px;
-    	}
-        
         #table{
             width: 80%;
             background-color: #006633;
@@ -36,6 +35,7 @@
             border-radius: 15px;
         }
         button{
+            outline: none;
             font-family: 'Kanit', sans-serif;
             background-color: #2A2727;
             border:1px solid #2A2727;
