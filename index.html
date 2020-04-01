@@ -164,7 +164,7 @@
             text:"คุณต้องการย้ายเป็นศิษย์เก่าหรือไม่",
             icon:"warning",
             buttons:true,
-            dangerMode:true,
+            dangerMode:true
         	}).then((download)=>{
             	if(download){
         			ref=firebase.database().ref("name/"+type+"/"+tag);
@@ -183,9 +183,7 @@
             		console.err("Error"+err);
         			});   
             	}else{
-        			ref=firebase.database().ref("name/"+type+"/"+tag);
-        			ref.remove();
-        			swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
+        			swal("แจ้งเตือน","ยกเลิกลบข้อมูล","success");
             	}
         	});
         }else{
@@ -194,7 +192,7 @@
             text:"คุณต้องการย้ายเป็นเป็นศิษย์ปัจจุบันหรือไม่",
             icon:"warning",
             buttons:true,
-            dangerMode:true,
+            dangerMode:true
         	}).then((download)=>{
             	if(download){
         			ref=firebase.database().ref("name/"+type+"/"+tag);
@@ -213,9 +211,7 @@
             			console.err("Error"+err);
         			});   
            		}else{
-        			ref=firebase.database().ref("name/"+type+"/"+tag);
-        			ref.remove();
-        			swal("แจ้งเตือน","ลบข้อมูลสำเร็จ","success");
+        			swal("แจ้งเตือน","ยกเลิกลบข้อมูล","success");
             	}
         	});
         }  
