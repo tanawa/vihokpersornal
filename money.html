@@ -54,7 +54,6 @@
 				</td>
 			</tr>
 		</table>
-
 		<select id="select">
 			<option>+ ถอนใช้ส่วนตัว</option>
 			<option>- ถอนใช้ส่วนตัว</option>
@@ -164,8 +163,23 @@
 					}else if(type=="ทรัพย์สิน"){
 						summoney+=number;
 					}
-					if(number<summoney){
+					if(type="รายจ่าย" && number<summoney){
 
+						ref=firebase.database().ref("money");
+						ref.child("sum").set(summoney);
+						ref.child("withdraw").set(sumwithdraw);
+
+						ref=firebase.database().ref("money/about");
+						
+						let da=new Date();
+						ref.child(value).set([" "+da+" ",type,number,text,snapshot.val()]);
+		
+						$("#text").val("");
+						$("#money").val("");
+						$("#password").val("");
+						
+						swal("แจ้งเตือน","เพิ่มข้อมูลสำเร็จ","success");
+					}else if(!type="รายจ่าย"){
 						ref=firebase.database().ref("money");
 						ref.child("sum").set(summoney);
 						ref.child("withdraw").set(sumwithdraw);
