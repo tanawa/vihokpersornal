@@ -125,6 +125,21 @@
 		});
 
 		function add(){
+			ref=firebase.database().ref("money/sum");
+		ref.once("value",function(snapshot){
+			summoney=snapshot.val();
+			$("#sum").text(summoney+" บาท");
+		},function(err){
+
+		});
+
+		ref=firebase.database().ref("money/withdraw");
+		ref.once("value",function(snapshot){
+			$("#withdraw").text(snapshot.val()+" บาท");
+			sumwithdraw=snapshot.val();
+		},function(err){
+
+		});
 			let text=$("#text").val();
 			let password=$("#password").val();
 			ref=firebase.database().ref("persorm/"+password);
