@@ -143,7 +143,8 @@
 			let password=$("#password").val();
 			ref=firebase.database().ref("persorm/"+password);
 			ref.once("value",function(snapshot){
-				if(snapshot.val()!=null){
+				console.log(snapshot.val()+password);
+				if(snapshot.val()!=null && password!=""){
 					let number=parseInt($("#money").val());
 					let type=$("select").val();
 					if(type=="+ ถอนใช้ส่วนตัว"){
@@ -179,7 +180,7 @@
 						$("#password").val("");
 						
 						swal("แจ้งเตือน","เพิ่มข้อมูลสำเร็จ","success");
-					}else if(!type="รายจ่าย"){
+					}else if(type!="รายจ่าย"){
 						ref=firebase.database().ref("money");
 						ref.child("sum").set(summoney);
 						ref.child("withdraw").set(sumwithdraw);
