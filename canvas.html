@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		canvas{
+			border:1px solid #ddd;
+		}
+	</style>
+</head>
+<body>
+<canvas id="canvas" width="620" height="877">
+	
+</canvas>
+<script type="text/javascript">
+	var canvas=document.getElementById("canvas");
+	var ctx=canvas.getContext("2d");
+	ctx.beginPath();
+	var lastX=0,lastY=0;
+	function draw(x,y){
+		let changeX=0,changeY=0,historyX=[10],historyY=[10],positionX=0,positionY=0;
+		changeX=x-lastX;
+		changeY=y-lastY;
+		ctx.fillRect(x,y,5,5);
+		console.log("changeX:"+changeX+" lastX:"+lastX+" x:"+x);
+		console.log("changeY:"+changeY+" lastY:"+lastY+" Y:"+y);
+		if(changeY>changeX){
+			console.log("loop"+changeY);
+			positionX=x;
+			positionY=y;
+			for(let n=0;n<changeY;n++){
+				console.log("pX:"+positionX+" pY:"+positionY);
+				if(changeY>0 && positionY!=lastY){
+					console.log("-y");
+					positionY=y-n;
+				}
+				if(changeX>0 && positionX!=lastX){
+					positionX=x-n;
+				}
+				ctx.fillRect(positionX,positionY,5,5);
+			}
+			lastX=x;
+			lastY=y;
+		}else if(changeX>changeY){
+			console.log("loop"+changeX);
+			positionX=x;
+			positionY=y;
+			for(let n=0;n<changeX;n++){
+				console.log("pX:"+positionX+" pY:"+positionY);
+				if(changeY>0 && positionY!=lastY){
+					console.log("-y");
+					positionY=y-n;
+				}
+				if(changeX>0 && positionX!=lastX){
+					positionX=x-n;
+				}
+				ctx.fillRect(positionX,positionY,5,5);
+			}
+			lastX=x;
+			lastY=y;
+		}
+
+	}
+	var run=true;
+	canvas.addEventListener("mousedown",function(e){
+
+		if(run){
+			run=false;
+			lastX=e.clientX-10;
+			lastY=e.clientY-10;
+			draw(e.clientX-10,e.clientY-10);
+		}
+		 
+	    });
+	canvas.addEventListener("mouseup",function(e){
+run=true;
+		 
+	    });
+	canvas.addEventListener("mousemove",function(e){
+		if(!run){
+			draw(e.clientX-10,e.clientY-10);
+		}
+	});
+	
+	
+</script>
+</body>
+</html>
