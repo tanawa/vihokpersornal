@@ -141,12 +141,12 @@
 		});
 			let text=$("#text").val();
 			let password=$("#password").val();
+			let number=parseInt($("#money").val());
+			let type=$("#select").val();
 			ref=firebase.database().ref("persorm/"+password);
 			ref.once("value",function(snapshot){
 				console.log(snapshot.val()+password);
 				if(snapshot.val()!=null && password!=""){
-					let number=parseInt($("#money").val());
-					let type=$("select").val();
 					if(type=="+ ถอนใช้ส่วนตัว"){
 						if(number<summoney){
 							summoney-=number;
@@ -173,7 +173,7 @@
 						ref=firebase.database().ref("money/about");
 						
 						let da=new Date();
-						ref.child(value).set([" "+da+" ",type,number,text,snapshot.val()]);
+						ref.child(value).set([" "+da+" ",$("#select").val(),number,text,snapshot.val()]);
 		
 						$("#text").val("");
 						$("#money").val("");
@@ -188,7 +188,7 @@
 						ref=firebase.database().ref("money/about");
 						
 						let da=new Date();
-						ref.child(value).set([" "+da+" ",type,number,text,snapshot.val()]);
+						ref.child(value).set([" "+da+" ",$("#select").val(),number,text,snapshot.val()]);
 		
 						$("#text").val("");
 						$("#money").val("");
