@@ -222,7 +222,7 @@
         let password=$("#password").val();
         ref=firebase.database().ref("persor/"+password);
         ref.once("value",function(snapshot){
-        	if(snapshot.val()!=null){
+        	if(snapshot.val()!=null && password!=""){
             	let type=$("#type").val();
         		ref=firebase.database().ref("name/"+type);
         		let FullName=$("#FullName").val();
