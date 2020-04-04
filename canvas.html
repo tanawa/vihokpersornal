@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>ระบบเซ็นออนไลน์</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta charset="utf-8">
 	<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
@@ -151,6 +151,7 @@ run=true;
 	function set(){
 		var data=canvas.toDataURL("image/jpg");
 		document.getElementById("down").href=data;
+		swal("แจ้งเตือน","โหลดไฟล์สำเร็จ","success");
 	}
 	
 </script>
