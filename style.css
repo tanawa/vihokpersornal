@@ -79,3 +79,18 @@
         .form>.close{
             float: left;
         }
+        #nav{
+            height: 60px;
+            line-height: 60px;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0px 0px 5px 0px #DDD;
+        }
+        #nav>img{
+            height:60px;
+        }
+        #nav>a{
+            color:#333333;
+            text-decoration:none;
+            margin-left:20px;
+        }
