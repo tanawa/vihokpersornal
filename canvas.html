@@ -2,6 +2,13 @@
 <html>
 <head>
 	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<style type="text/css">
 		canvas{
 			border:1px solid #ddd;
@@ -9,79 +16,142 @@
 	</style>
 </head>
 <body>
-<canvas id="canvas" width="620" height="877">
+	<center>
+		<select onchange="change()" id="change">
+			<option>คำสั่งแต่งตั้ง</option>
+			<option>ใบลาออก</option>
+		</select>
+	<input type="text" name="" placeholder="เลขยืนยัน" id="number">
+	<button onclick="logins()">ยืนยัน</button>
+	<button onclick="set()">แปลง</button>
+	<a href="#" download="เอกสาร.jpg"><button>ดาวโหลด</button></a>
+<canvas id="canvas" width="1240" height="1754">
 	
 </canvas>
+</center>
 <script type="text/javascript">
+	var firebaseConfig = {
+    apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
+    authDomain: "testmes-2fcf4.firebaseapp.com",
+    databaseURL: "https://testmes-2fcf4.firebaseio.com",
+    projectId: "testmes-2fcf4",
+    storageBucket: "testmes-2fcf4.appspot.com",
+    messagingSenderId: "866846768783",
+    appId: "1:866846768783:web:6ef7269027340cfc"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var ref=firebase.database().ref("persor");
+	var login=false;
+	var predictX=0,predictY=0;
+	var width=3,height=3;
+	var changeX=0,changeY=0,positionX=0,positionY=0;
 	var canvas=document.getElementById("canvas");
 	var ctx=canvas.getContext("2d");
 	ctx.beginPath();
+	ctx.fillStyle="#3B76D6";
 	var lastX=0,lastY=0;
+	var image=new Image();
+	image.onload=function(){
+		ctx.drawImage(image,0,0,1240,1754);
+	};
+	image.src="0001.jpg";
+	function change(){
+		var selects=$("#change").val();
+		console.log(selects);
+		let img="";
+		if(selects=="คำสั่งแต่งตั้ง"){
+			img="0001.jpg";
+		}else{
+			img="0002.jpg";
+		}
+		var image=new Image();
+	    image.onload=function(){
+		ctx.drawImage(image,0,0,1240,1754);
+	    };
+	    image.src=img;
+	}
+	function logins(){
+		if($("#number").val()!=""){
+			ref=firebase.database().ref("persor/"+$("#number").val());
+			ref.once("value",function(snapshot){
+				if(snapshot.val()!=null){
+					login=true;
+					swal("แจ้งเตือน","ล็อกอินสำเร็จ","success");
+				}else{
+					swal("แจ้งเตือน","ล็อกอินไม่สำเร็จ","error");
+				}
+			},function(error){
+
+			});
+		}
+		
+
+	}
 	function draw(x,y){
-		let changeX=0,changeY=0,historyX=[10],historyY=[10],positionX=0,positionY=0;
 		changeX=x-lastX;
 		changeY=y-lastY;
-		ctx.fillRect(x,y,5,5);
-		console.log("changeX:"+changeX+" lastX:"+lastX+" x:"+x);
-		console.log("changeY:"+changeY+" lastY:"+lastY+" Y:"+y);
-		if(changeY>changeX){
-			console.log("loop"+changeY);
-			positionX=x;
-			positionY=y;
-			for(let n=0;n<changeY;n++){
-				console.log("pX:"+positionX+" pY:"+positionY);
-				if(changeY>0 && positionY!=lastY){
-					console.log("-y");
-					positionY=y-n;
+		//console.log("changeX:"+changeX+" lastX:"+lastX+" x:"+x);
+		//console.log("changeY:"+changeY+" lastY:"+lastY+" Y:"+y);
+		let max=(Math.abs(changeY)>Math.abs(changeX) ? changeY:changeX);
+		let maxs=(changeY<changeX ? changeY:changeX);
+		positionX=lastX;
+		positionY=lastY;
+		ctx.fillRect(x,y,width,height);
+		console.log(Math.abs(max));
+		
+		for(let u=0;u<Math.abs(max);u++){
+				if(positionX<x){
+					positionX=positionX+1;
+				}else if(positionX>x){
+					positionX=positionX-1;
 				}
-				if(changeX>0 && positionX!=lastX){
-					positionX=x-n;
+				if(positionY<y){
+					positionY=positionY+1;
+				}else if(positionY>y){
+					positionY=positionY-1;
 				}
-				ctx.fillRect(positionX,positionY,5,5);
+				ctx.fillRect(positionX,positionY,width,height);
 			}
-			lastX=x;
-			lastY=y;
-		}else if(changeX>changeY){
-			console.log("loop"+changeX);
-			positionX=x;
-			positionY=y;
-			for(let n=0;n<changeX;n++){
-				console.log("pX:"+positionX+" pY:"+positionY);
-				if(changeY>0 && positionY!=lastY){
-					console.log("-y");
-					positionY=y-n;
-				}
-				if(changeX>0 && positionX!=lastX){
-					positionX=x-n;
-				}
-				ctx.fillRect(positionX,positionY,5,5);
-			}
-			lastX=x;
-			lastY=y;
-		}
-
+		
+		
+		lastX=x;
+		lastY=y;
 	}
 	var run=true;
 	canvas.addEventListener("mousedown",function(e){
 
-		if(run){
+		if(run && login){
 			run=false;
-			lastX=e.clientX-10;
-			lastY=e.clientY-10;
-			draw(e.clientX-10,e.clientY-10);
+			width=0;
+			height=0;
+			lastX=e.offsetX;
+			lastY=e.offsetY;
+			draw(e.offsetX,e.offsetY);
+		}else{
+			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
+		 /**/
 		}
-		 
 	    });
 	canvas.addEventListener("mouseup",function(e){
 run=true;
 		 
 	    });
 	canvas.addEventListener("mousemove",function(e){
-		if(!run){
-			draw(e.clientX-10,e.clientY-10);
+		if(!run && login){
+			if(width<3 && height<3){
+				width+=0.25;
+				height+=0.25;
+			}
+			console.log(e);
+			draw(e.offsetX,e.offsetY);
+		}else{
+
 		}
 	});
-	
+	function set(){
+		var data=canvas.toDataURL("image/jpg");
+		document.getElementById("down").href=data;
+	}
 	
 </script>
 </body>
