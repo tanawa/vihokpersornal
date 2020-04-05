@@ -142,7 +142,7 @@
 		positionX=lastX;
 		positionY=lastY;
 		ctx.fillRect(x,y,width,height);
-		drawing.push([x,y]);
+		drawing.push([true,x,y]);
 		for(let u=0;u<Math.abs(max);u++){
 				if(positionX<x){
 					positionX=positionX+1;
@@ -155,7 +155,7 @@
 					positionY=positionY-1;
 				}
 				ctx.fillRect(positionX,positionY,width,height);
-				drawing.push([positionX,positionY]);
+				drawing.push([false,positionX,positionY]);
 			}
 		
 		
@@ -201,7 +201,7 @@ run=true;
 			height=0;
 			lastX=Math.floor(e.touches[0].screenX)-Nx;
 			lastY=Math.floor(e.touches[0].screenY)-Ny;
-			draw(e.offsetX,e.offsetY);
+			draw(Math.floor(e.touches[0].screenX)-Nx,Math.floor(e.touches[0].screenY)-Ny);
 		}else{
 			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
 		 /**/
@@ -219,7 +219,7 @@ run=true;
 				height+=0.25;
 			}
 			draw(Math.floor(e.touches[0].screenX)-Nx,Math.floor(e.touches[0].screenY)-Ny);
-			$("#pos").text(Math.floor(e.touches[0].screenX).toString()+":"+Math.floor(e.touches[0].screenY).toString());
+			$("#pos").text((Math.floor(e.touches[0].screenX)-Nx).toString()+":"+(Math.floor(e.touches[0].screenY)-Ny).toString());
 		}else{
 
 		}
