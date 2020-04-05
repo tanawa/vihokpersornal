@@ -199,9 +199,9 @@ run=true;
 			run=false;
 			width=0;
 			height=0;
-			lastX=Math.floor(e.touches[0].screenX)+Nx;
+			lastX=Math.floor(e.touches[0].screenX);
 			lastY=Math.floor(e.touches[0].screenY)-Ny;
-			draw(Math.floor(e.touches[0].screenX)+Nx,Math.floor(e.touches[0].screenY)-Ny);
+			draw(Math.floor(e.touches[0].screenX),Math.floor(e.touches[0].screenY)-Ny);
 		}else{
 			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
 		 /**/
@@ -218,8 +218,8 @@ run=true;
 				width+=0.25;
 				height+=0.25;
 			}
-			draw(Math.floor(e.touches[0].screenX)+Nx,Math.floor(e.touches[0].screenY)-Ny);
-			$("#pos").text((Math.floor(e.touches[0].screenX)+Nx).toString()+":"+(Math.floor(e.touches[0].screenY)-Ny).toString());
+			draw(Math.floor(e.touches[0].screenX),Math.floor(e.touches[0].screenY)-Ny);
+			$("#pos").text((Math.floor(e.touches[0].screenX)).toString()+":"+(Math.floor(e.touches[0].screenY)-Ny).toString());
 		}else{
 
 		}
