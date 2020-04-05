@@ -85,11 +85,13 @@
             width: 100%;
             background-color: #fff;
             box-shadow: 0px 0px 5px 0px #DDD;
+            overflow: scroll;
         }
         #nav>img{
             height:60px;
         }
         #nav>a{
+            font-size: 12px;
             color:#333333;
             text-decoration:none;
             margin-left:20px;
