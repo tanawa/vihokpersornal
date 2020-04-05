@@ -138,21 +138,31 @@
 		//console.log("changeX:"+changeX+" lastX:"+lastX+" x:"+x);
 		//console.log("changeY:"+changeY+" lastY:"+lastY+" Y:"+y);
 		let max=(Math.abs(changeY)>Math.abs(changeX) ? changeY:changeX);
-		let maxs=(changeY<changeX ? changeY:changeX);
+		let min=(Math.abs(changeY)<Math.abs(changeX) ? changeY:changeX);
 		positionX=lastX;
 		positionY=lastY;
 		ctx.fillRect(x,y,width,height);
 		drawing.push([true,x,y]);
+		let divide=Math.abs(min)/Math.abs(max);
+		let pushX=0,pushY=0;
+		console.log(divide);
+		if(Math.abs(changeY)>Math.abs(changeX)){
+			pushY=1;
+			pushX=divide;
+		}else{
+			pushX=1;
+			pushY=divide;
+		}
 		for(let u=0;u<Math.abs(max);u++){
 				if(positionX<x){
-					positionX=positionX+1;
+					positionX=positionX+pushX;
 				}else if(positionX>x){
-					positionX=positionX-1;
+					positionX=positionX-pushX;
 				}
 				if(positionY<y){
-					positionY=positionY+1;
+					positionY=positionY+pushY;
 				}else if(positionY>y){
-					positionY=positionY-1;
+					positionY=positionY-pushY;
 				}
 				ctx.fillRect(positionX,positionY,width,height);
 				drawing.push([false,positionX,positionY]);
