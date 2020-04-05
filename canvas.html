@@ -219,7 +219,7 @@ run=true;
 				height+=0.25;
 			}
 			draw(e.touches[0].screenX-Nx,e.touches[0].screenY-Ny);
-			$("#pos").text((e.touches[0].screenX).toString()+":"+(e.touches[0].screenY).toString());
+			$("#pos").text(Math.floor(e.touches[0].screenX).toString()+":"+Math.floor(e.touches[0].screenY).toString());
 		}else{
 
 		}
