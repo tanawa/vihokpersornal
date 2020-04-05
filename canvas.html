@@ -20,19 +20,20 @@
 		<a href="index.html">ฝ่ายบุคคล<a href="money.html">ฝ่ายการเงิน</a><a href="radio.html">ฝ่ายเทคนิค</a><a href="canvas.html">ระบบเซ็น</a><a href="card.html">ระบบทำบัตร</a>
 	</div>
 	<center><br>
-		<select onchange="change()" id="change">
-			<option>คำสั่งแต่งตั้ง</option>
-			<option>ใบลาออก</option>
+		<select id="change">
 		</select>
 	<input type="text" name="" placeholder="เลขยืนยัน" id="number">
-	<button onclick="logins()">ยืนยัน</button>
-	<button onclick="set()">แปลง</button>
-	<a href="#" id="down" download="เอกสาร.jpg"><button>ดาวโหลด</button></a>
-<canvas id="canvas" width="1240" height="1754">
+	<button onclick="logins()">ตรวจสอบ</button>
+	<button onclick="send()">ยืนยัน</button>
+	<br>
+<canvas id="canvas" width="400"><!--width="1240" height="1754"-->
 	
 </canvas>
 </center>
 <script type="text/javascript">
+	function load(item,index){
+  		$("#change").append("<option>"+item+"</option>");  	
+  }
 	var firebaseConfig = {
     apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
     authDomain: "testmes-2fcf4.firebaseapp.com",
@@ -43,7 +44,17 @@
     appId: "1:866846768783:web:6ef7269027340cfc"
   };
   firebase.initializeApp(firebaseConfig);
-  var ref=firebase.database().ref("persor");
+  var ref=firebase.database().ref("send");
+  
+  ref.once("value",function(snapshot){
+  	let list=Object.keys(snapshot.val());
+  	console.log(list.length);  
+  	list.forEach(load);
+  },function(error){
+
+  });
+    var drawing=[];
+    var name="";
 	var login=false;
 	var predictX=0,predictY=0;
 	var width=3,height=3;
@@ -53,32 +64,25 @@
 	ctx.beginPath();
 	ctx.fillStyle="#3B76D6";
 	var lastX=0,lastY=0;
-	var image=new Image();
-	image.onload=function(){
-		ctx.drawImage(image,0,0,1240,1754);
-	};
-	image.src="0001.jpg";
-	function change(){
-		var selects=$("#change").val();
-		console.log(selects);
-		let img="";
-		if(selects=="คำสั่งแต่งตั้ง"){
-			img="0001.jpg";
-		}else{
-			img="0002.jpg";
+	function send(){
+		if(drawing.length!=0 && name!=""){
+			ref=firebase.database().ref("responsesend/"+$("#change").val());
+			ref.child(name).set(drawing);
+			swal("แจ้งเตือน","ส่งข้อมูลสำเร็จ","success");
 		}
-		var image=new Image();
-	    image.onload=function(){
-		ctx.drawImage(image,0,0,1240,1754);
-	    };
-	    image.src=img;
+	}
+	function check(password){
+		return password==$("#number").val();
 	}
 	function logins(){
 		if($("#number").val()!=""){
-			ref=firebase.database().ref("persor/"+$("#number").val());
+			ref=firebase.database().ref("send/"+$("#change").val());
 			ref.once("value",function(snapshot){
-				if(snapshot.val()!=null){
+				let pass=Object.values(snapshot.val());
+				console.log(pass.find(check));
+				if(pass.find(check)!=undefined){
 					login=true;
+					name=$("#number").val();
 					swal("แจ้งเตือน","ล็อกอินสำเร็จ","success");
 				}else{
 					swal("แจ้งเตือน","ล็อกอินไม่สำเร็จ","error");
@@ -100,8 +104,7 @@
 		positionX=lastX;
 		positionY=lastY;
 		ctx.fillRect(x,y,width,height);
-		console.log(Math.abs(max));
-		
+		drawing.push([x,y]);
 		for(let u=0;u<Math.abs(max);u++){
 				if(positionX<x){
 					positionX=positionX+1;
@@ -114,6 +117,7 @@
 					positionY=positionY-1;
 				}
 				ctx.fillRect(positionX,positionY,width,height);
+				drawing.push([positionX,positionY]);
 			}
 		
 		
@@ -137,7 +141,7 @@
 	    });
 	canvas.addEventListener("mouseup",function(e){
 run=true;
-		 
+		 console.log(drawing);
 	    });
 	canvas.addEventListener("mousemove",function(e){
 		if(!run && login){
@@ -145,7 +149,6 @@ run=true;
 				width+=0.25;
 				height+=0.25;
 			}
-			console.log(e);
 			draw(e.offsetX,e.offsetY);
 		}else{
 
@@ -176,17 +179,12 @@ run=true;
 				width+=0.25;
 				height+=0.25;
 			}
-			console.log(e);
-			draw(e.touches[0].clientX-180,e.touches[0].clientY-150);
+			draw(e.touches[0].clientX-150,e.touches[0].clientY-150);
 		}else{
 
 		}
 	});
-	function set(){
-		var data=canvas.toDataURL("image/jpg");
-		document.getElementById("down").href=data;
-		swal("แจ้งเตือน","โหลดไฟล์สำเร็จ","success");
-	}
+	
 	
 </script>
 </body>
