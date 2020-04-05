@@ -27,6 +27,7 @@
 	<button onclick="send()">ยืนยัน</button>
 	<button onclick="clears()">ล้าง</button>
 	<br><br>
+	<a id="pos">ss</a>
 <canvas id="canvas"><!--width="1240" height="1754"-->
 	
 </canvas>
@@ -218,6 +219,7 @@ run=true;
 				height+=0.25;
 			}
 			draw(e.touches[0].screenX-Nx,e.touches[0].screenY-Ny);
+			$("#pos").text((e.touches[0].screenX-Nx).toString()+":"+(e.touches[0].screenY-Ny).toString());
 		}else{
 
 		}
