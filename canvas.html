@@ -15,7 +15,7 @@
 		}
 	</style>
 </head>
-<body>
+<body onresize="resize()">
 	<div id="nav">
 		<a href="index.html">ฝ่ายบุคคล<a href="money.html">ฝ่ายการเงิน</a><a href="radio.html">ฝ่ายเทคนิค</a><a href="canvas.html">ระบบเซ็น</a><a href="card.html">ระบบทำบัตร</a>
 	</div>
@@ -26,10 +26,12 @@
 	<button onclick="logins()">ตรวจสอบ</button>
 	<button onclick="send()">ยืนยัน</button>
 	<button onclick="clears()">ล้าง</button>
-	<br>
+	<br><br>
 <canvas id="canvas"><!--width="1240" height="1754"-->
 	
 </canvas>
+<br>
+<a>หมายเหตุ ระบบจะจัดเก็บ IP ที่อยู่ทุกครั้ง</a>
 </center>
 <script type="text/javascript">
 	document.getElementById("canvas").style.width=screen.width;
@@ -58,6 +60,14 @@
     var drawing=[];
     var name="";
 	var login=false;
+	var Nx=190,Ny=190;
+	if(screen.width>600){
+			Ny=190;
+			Nx=60;
+		}else{
+			Ny=340;
+			Nx=560;
+		}
 	var predictX=0,predictY=0;
 	var width=3,height=3;
 	var changeX=0,changeY=0,positionX=0,positionY=0;
@@ -66,17 +76,37 @@
 	ctx.beginPath();
 	ctx.fillStyle="#3B76D6";
 	var lastX=0,lastY=0;
+	function resize(){
+		console.log(screen.width);
+		if(screen.width>600){
+			Ny=190;
+			Nx=60;
+		}else{
+			Ny=340;
+			Nx=560;
+		}
+	}
 	function clears(){
+		if(run && login){
 		console.log("dsa");
 		drawing=[];
 		ctx.clearRect(0,0,canvas.width,canvas.height);
 		swal("แจ้งเตือน","ล้างข้อมูลสำเร็จ","success");
+		}else{
+			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
+		 /**/
+		}
 	}
 	function send(){
+		if(run && login){
 		if(drawing.length!=0 && name!=""){
 			ref=firebase.database().ref("responsesend/"+$("#change").val());
 			ref.child(name).set(drawing);
 			swal("แจ้งเตือน","ส่งข้อมูลสำเร็จ","success");
+		}
+		}else{
+			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
+		 /**/
 		}
 	}
 	function check(password){
@@ -169,8 +199,8 @@ run=true;
 			run=false;
 			width=0;
 			height=0;
-			lastX=e.touches[0].clientX-60;
-			lastY=e.touches[0].clientY-190;
+			lastX=e.touches[0].screenX-Nx;
+			lastY=e.touches[0].screenY-Ny;
 			draw(e.offsetX,e.offsetY);
 		}else{
 			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
@@ -188,7 +218,7 @@ run=true;
 				width+=0.25;
 				height+=0.25;
 			}
-			draw(e.touches[0].clientX-60,e.touches[0].clientY-190);
+			draw(e.touches[0].screenX-Nx,e.touches[0].screenY-Ny);
 		}else{
 
 		}
