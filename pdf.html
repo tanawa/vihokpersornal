@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ระบบเซ็นออนไลน์</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<style type="text/css">
+		canvas{
+			border:1px solid #ddd;
+		}
+	</style>
+</head>
+<body>
+	<div id="nav">
+		<a href="index.html">ฝ่ายบุคคล<a href="money.html">ฝ่ายการเงิน</a><a href="radio.html">ฝ่ายเทคนิค</a><a href="canvas.html">ระบบเซ็น</a><a href="card.html">ระบบทำบัตร</a>
+	</div>
+	<center><br>
+		<select id="change">
+		</select>
+	<button onclick="set()">แปลง canvas เป็น PNG</button>
+<a id="down" download="เอกสาร.png" ><button>โหลดไฟล์ภาพ PNG</button></a>
+
+
+<canvas id="canvas" width="1240" height="1754"><!---->
+	
+</canvas>
+<br>
+</center>
+<script type="text/javascript">
+	var predictX=0,predictY=0;
+	var width=3,height=3;
+	var changeX=0,changeY=0,positionX=0,positionY=0;
+	var canvas=document.getElementById("canvas");
+	var ctx=canvas.getContext("2d");
+	ctx.beginPath();
+	ctx.fillStyle="#3B76D6";
+	var lastX=0,lastY=0;
+	var data=[];
+	var keysdata=[];
+	var type="";
+	var img=new Image();
+	img.onload=function(){
+		ctx.drawImage(img,0,0,1240,1754);
+		
+	}
+	img.src="0001.jpg";
+	var firebaseConfig = {
+    apiKey: "AIzaSyAS8FVZdUsHQykpoZEB-uAHRHQYSLPnatg",
+    authDomain: "testmes-2fcf4.firebaseapp.com",
+    databaseURL: "https://testmes-2fcf4.firebaseio.com",
+    projectId: "testmes-2fcf4",
+    storageBucket: "testmes-2fcf4.appspot.com",
+    messagingSenderId: "866846768783",
+    appId: "1:866846768783:web:6ef7269027340cfc"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var ref=firebase.database().ref("responsesend");
+  function load(item,index){
+  		$("#change").append("<option>"+item+"</option>"); 
+
+  }
+  var h=1200;
+  var w=500;
+  function drawtest(name){
+  	draw(name[1]+w,name[2]+h);
+  }
+  ref.once("value",function(snapshot){
+  	let list=Object.keys(snapshot.val());
+  	list.forEach(load);
+  	type=$("#change").val();
+  	
+  ref=firebase.database().ref("responsesend/"+type);
+  ref.once("value",function(snapshot){
+  	data=Object.values(snapshot.val());
+  	keysdata=Object.keys(snapshot.val());
+  	lastX=data[1][0][1];
+  	lastY=data[1][0][2];
+  	
+  	for(let n=0;n<data.length;n++){
+  		lastX=data[n][0][1]+w;
+  		lastY=data[n][0][2]+h;
+  		data[n].forEach(drawtest);
+  		h+=290;
+  	}
+  	
+  },function(error){
+
+  });
+  },function(error){
+
+  });
+  
+
+
+    var name="";
+	var login=false;
+	var Nx=190,Ny=190;
+	if(screen.width>600){
+			Ny=190;
+			Nx=60;
+		}else{
+			Ny=320;
+			Nx=20;
+		}
+	
+	
+	function clears(){
+		ctx.clearRect(0,0,canvas.width,canvas.height);
+	}
+	
+	
+	function draw(x,y){
+		changeX=x-lastX;
+		changeY=y-lastY;
+		//console.log("changeX:"+changeX+" lastX:"+lastX+" x:"+x);
+		//console.log("changeY:"+changeY+" lastY:"+lastY+" Y:"+y);
+		let max=(Math.abs(changeY)>Math.abs(changeX) ? changeY:changeX);
+		let min=(Math.abs(changeY)<Math.abs(changeX) ? changeY:changeX);
+		positionX=lastX;
+		positionY=lastY;
+		ctx.fillRect(x,y,width,height);
+		let divide=Math.abs(min)/Math.abs(max);
+		let pushX=0,pushY=0;
+		if(Math.abs(changeY)>Math.abs(changeX)){
+			pushY=1;
+			pushX=divide;
+		}else{
+			pushX=1;
+			pushY=divide;
+		}
+		for(let u=0;u<Math.abs(max);u++){
+				if(positionX<x){
+					positionX=positionX+pushX;
+				}else if(positionX>x){
+					positionX=positionX-pushX;
+				}
+				if(positionY<y){
+					positionY=positionY+pushY;
+				}else if(positionY>y){
+					positionY=positionY-pushY;
+				}
+				ctx.fillRect(positionX,positionY,width,height);
+				
+			}
+		
+		
+		lastX=x;
+		lastY=y;
+	}
+	function set(){
+	var data=canvas.toDataURL("image/png");
+	console.log(data);
+	document.getElementById("down").href=data;
+	swal("แจ้งเตือน","โหลดไฟล์สำเร็จ","success");
+	
+}
+	
+	
+</script>
+</body>
+</html>
