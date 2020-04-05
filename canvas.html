@@ -65,8 +65,8 @@
 			Ny=190;
 			Nx=60;
 		}else{
-			Ny=340;
-			Nx=560;
+			Ny=320;
+			Nx=640;
 		}
 	var predictX=0,predictY=0;
 	var width=3,height=3;
@@ -82,8 +82,8 @@
 			Ny=190;
 			Nx=60;
 		}else{
-			Ny=340;
-			Nx=560;
+			Ny=320;
+			Nx=640;
 		}
 	}
 	function clears(){
@@ -199,8 +199,8 @@ run=true;
 			run=false;
 			width=0;
 			height=0;
-			lastX=Math.floor(e.touches[0].screenX);
-			lastY=Math.floor(e.touches[0].screenY);
+			lastX=Math.floor(e.touches[0].screenX)-Nx;
+			lastY=Math.floor(e.touches[0].screenY)-Ny;
 			draw(e.offsetX,e.offsetY);
 		}else{
 			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
@@ -209,7 +209,7 @@ run=true;
 	    });
 	canvas.addEventListener("touchend",function(e){
 run=true;
-		 
+		 console.log(drawing);
 	    });
 	canvas.addEventListener("touchmove",function(e){
 		console.log(e);
@@ -218,7 +218,7 @@ run=true;
 				width+=0.25;
 				height+=0.25;
 			}
-			draw(Math.floor(e.touches[0].screenX),Math.floor(e.touches[0].screenY));
+			draw(Math.floor(e.touches[0].screenX)-Nx,Math.floor(e.touches[0].screenY)-Ny);
 			$("#pos").text(Math.floor(e.touches[0].screenX).toString()+":"+Math.floor(e.touches[0].screenY).toString());
 		}else{
 
