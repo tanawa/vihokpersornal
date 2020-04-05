@@ -168,8 +168,8 @@ run=true;
 			run=false;
 			width=0;
 			height=0;
-			lastX=e.touches[0].clientX-150;
-			lastY=e.touches[0].clientY-150;
+			lastX=e.touches[0].clientX-60;
+			lastY=e.touches[0].clientY-190;
 			draw(e.offsetX,e.offsetY);
 		}else{
 			swal("แจ้งเตือน","กรุณาล็อกอิน","warning");
@@ -181,12 +181,13 @@ run=true;
 		 
 	    });
 	canvas.addEventListener("touchmove",function(e){
+		console.log(e);
 		if(!run && login){
 			if(width<3 && height<3){
 				width+=0.25;
 				height+=0.25;
 			}
-			draw(e.touches[0].clientX-150,e.touches[0].clientY-150);
+			draw(e.touches[0].clientX-60,e.touches[0].clientY-190);
 		}else{
 
 		}
