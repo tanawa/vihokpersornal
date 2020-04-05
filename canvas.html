@@ -27,11 +27,12 @@
 	<button onclick="send()">ยืนยัน</button>
 	<button onclick="clears()">ล้าง</button>
 	<br>
-<canvas id="canvas" width="400"><!--width="1240" height="1754"-->
+<canvas id="canvas"><!--width="1240" height="1754"-->
 	
 </canvas>
 </center>
 <script type="text/javascript">
+	document.getElementById("canvas").style.width=screen.width;
 	function load(item,index){
   		$("#change").append("<option>"+item+"</option>");  	
   }
