@@ -60,8 +60,8 @@
 			</tr>
 		</table>
 		<select id="select">
-			<option>+ ถอนใช้ส่วนตัว</option>
-			<option>- ถอนใช้ส่วนตัว</option>
+			<option>ถอน</option>
+			<option>ฝาก</option>
 			<option>รายรับ</option>
 			<option>รายจ่าย</option>
 			<option>ทรัพย์สิน</option>
@@ -151,13 +151,13 @@
 			ref=firebase.database().ref("persorm/"+password);
 			ref.once("value",function(snapshot){
 				console.log(snapshot.val()+password);
-				if(snapshot.val()!=null && password!=""){
-					if(type=="+ ถอนใช้ส่วนตัว"){
+				if(snapshot.val()!=null && password!="" && text!=""){
+					if(type=="ถอน"){
 						if(number<summoney){
 							summoney-=number;
 							sumwithdraw+=number;
 						}
-					}else if(type=="- ถอนใช้ส่วนตัว"){
+					}else if(type=="ฝาก"){
 						if(number<summoney){
 							summoney+=number;
 							sumwithdraw-=number;
