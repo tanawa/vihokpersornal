@@ -85,7 +85,10 @@
 
 	<script type="text/javascript">
 		firebase.initializeApp(firebaseConfig);
-
+		console.log(parseFloat(10).toPrecision(2));
+		console.log((parseFloat(10.01)+parseFloat(10.20)).toFixed(2));
+		console.log(Math.floor(10.00));
+		console.log((10).toFixed(2)+(11.2).toFixed(2));
 		var summoney=0;
 		var sumwithdraw=0;
 		var value=0;
@@ -93,16 +96,16 @@
 
 		var ref=firebase.database().ref("money/sum");
 		ref.on("value",function(snapshot){
-			summoney=snapshot.val();
-			$("#sum").text(summoney+" บาท");
+			summoney=parseFloat(snapshot.val());
+			$("#sum").text(summoney.toFixed(2)+" บาท");
 		},function(err){
 
 		});
-
+		
 		ref=firebase.database().ref("money/withdraw");
 		ref.on("value",function(snapshot){
-			$("#withdraw").text(snapshot.val()+" บาท");
-			sumwithdraw=snapshot.val();
+			sumwithdraw=parseFloat(snapshot.val());
+			$("#withdraw").text(summoney.toFixed(2)+" บาท");
 		},function(err){
 
 		});
@@ -129,24 +132,24 @@
 		});
 
 		function add(){
-			ref=firebase.database().ref("money/sum");
-		ref.once("value",function(snapshot){
-			summoney=snapshot.val();
-			$("#sum").text(summoney+" บาท");
+			var ref=firebase.database().ref("money/sum");
+		ref.on("value",function(snapshot){
+			summoney=parseFloat(snapshot.val());
+			$("#sum").text(summoney.toFixed(2)+" บาท");
 		},function(err){
 
 		});
-
+		
 		ref=firebase.database().ref("money/withdraw");
-		ref.once("value",function(snapshot){
-			$("#withdraw").text(snapshot.val()+" บาท");
-			sumwithdraw=snapshot.val();
+		ref.on("value",function(snapshot){
+			sumwithdraw=parseFloat(snapshot.val());
+			$("#withdraw").text(summoney.toFixed(2)+" บาท");
 		},function(err){
 
 		});
 			let text=$("#text").val();
 			let password=$("#password").val();
-			let number=parseInt($("#money").val());
+			let number=parseFloat($("#money").val());
 			let type=$("#select").val();
 			ref=firebase.database().ref("persorm/"+password);
 			ref.once("value",function(snapshot){
@@ -178,7 +181,7 @@
 						ref=firebase.database().ref("money/about");
 						
 						let da=new Date();
-						ref.child(value).set([" "+da+" ",$("#select").val(),number,text,snapshot.val()]);
+						ref.child(value).set([" "+da+" ",$("#select").val(),parseFloat(number),text,snapshot.val()]);
 		
 						$("#text").val("");
 						$("#money").val("");
@@ -193,7 +196,7 @@
 						ref=firebase.database().ref("money/about");
 						
 						let da=new Date();
-						ref.child(value).set([" "+da+" ",$("#select").val(),number,text,snapshot.val()]);
+						ref.child(value).set([" "+da+" ",$("#select").val(),parseFloat(number),text,snapshot.val()]);
 		
 						$("#text").val("");
 						$("#money").val("");
