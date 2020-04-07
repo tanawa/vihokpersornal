@@ -34,6 +34,7 @@
     	    <option value="vihok1">ชมรมวิหคอาสา (ธรรมศาสตร์)</option>
     	    <option value="vihok2">ชมรมวิหคอาสา (ต่างสถาบัน)</option>
     	    <option value="rd">เจ้าหน้าที่วิทยุ</option>
+            <option value="vihokB2">บริหาร 2</option>
     	    <option value="alumni">ศิษย์เก่า</option>
     	</select>
 
@@ -46,6 +47,7 @@
             <input type="number" name="" placeholder="หมายเลขโทรศัพท์" id="Phone">
             <input type="date" name="" placeholder="วัน เดือน ปีเกิด" id="Date">
             <input type="number" name="" placeholder="เลขประจำตัวนักเรียน" id="NumberS">
+            <input type="text" name="" placeholder="ไอดีไลน์" id="line">
             <input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password">
 			<br>
 			<button onclick="send()" class="suc">บันทึก</button>
@@ -77,6 +79,7 @@
 					<td>หมายเลขโทรศัพท์</td>
 					<td>วัน เดือน ปีเกิด</td>
 					<td>เลขประจำตัวนักเรียน</td>
+                    <td>Line</td>
 					<td>แก้ไข</td>
 					<td>ลบ</td>
 				</tr>
@@ -93,7 +96,7 @@
     ref.on("value",function(snapshot){
     	$(".element").remove();
     	snapshot.forEach(function(data){
-    		$("#table").append("<tr id='tr' class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
+    		$("#table").append("<tr id='tr' class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td>"+data.val()[6]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
     	});
     },function(err){
     	console.log(err);
@@ -125,7 +128,7 @@
     	$(".element").remove();
     	ref.once("value",function(snapshot){
     		snapshot.forEach(function(data){
-    			$("#table").append("<tr id='tr' class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
+    			$("#table").append("<tr id='tr' class='element'><td>"+data.val()[0]+"</td><td>"+data.val()[1]+"</td><td>"+data.val()[2]+"</td><td>"+data.val()[3]+"</td><td>"+data.val()[4]+"</td><td>"+data.val()[5]+"</td><td>"+data.val()[6]+"</td><td><button onclick=\"load('"+data.val()[2]+"')\">แก้ไข</button></td><td><button onclick=\"deletes('"+data.val()[2]+"')\">ลบ</button></td></tr>");
     		});
     	},function(err){
     		console.log(err);
@@ -144,6 +147,7 @@
     		$("#Phone").val(snapshot.val()[3]);
     		$("#Date").val(snapshot.val()[4]);
     		$("#NumberS").val(snapshot.val()[5]);
+            $("#line").val(snapshot.val()[6]);
     	},function(err){
     		console.err("Error"+err);
     	});
@@ -169,7 +173,8 @@
         				ref.child(2).set(snapshot.val()[2]);
         				ref.child(3).set(snapshot.val()[3]);
         				ref.child(4).set(snapshot.val()[4]);
-        				ref.child(4).set(snapshot.val()[5]);
+        				ref.child(5).set(snapshot.val()[5]);
+                        ref.child(6).set(snapshot.val()[6]);
         				swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
         			},function(err){
             		console.err("Error"+err);
@@ -197,7 +202,8 @@
         				ref.child(2).set(snapshot.val()[2]);
         				ref.child(3).set(snapshot.val()[3]);
         				ref.child(4).set(snapshot.val()[4]);
-        				ref.child(4).set(snapshot.val()[5]);
+        				ref.child(5).set(snapshot.val()[5]);
+                        ref.child(6).set(snapshot.val()[6]);
 		        		swal("แจ้งเตือน","ย้ายรายชื่อสำเร็จ","success");
         			},function(err){
             			console.err("Error"+err);
@@ -223,8 +229,9 @@
         		let Phone=$("#Phone").val();
         		let date=$("#Date").val();
         		let NumberS=$("#NumberS").val();
+                let Line=$("#line").val();
         		console.log("ส่งข้อมูล :"+FullName+":"+NickName+":"+number+":"+Phone+":"+date+":"+NumberS);
-        		ref.child(number).set([FullName,NickName,number,Phone,date,NumberS]);
+        		ref.child(number).set([FullName,NickName,number,Phone,date,NumberS,Line]);
         		change();
         		swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success")
         	}
