@@ -105,7 +105,7 @@
 		ref=firebase.database().ref("money/withdraw");
 		ref.on("value",function(snapshot){
 			sumwithdraw=parseFloat(snapshot.val());
-			$("#withdraw").text(summoney.toFixed(2)+" บาท");
+			$("#withdraw").text(sumwithdraw.toFixed(2)+" บาท");
 		},function(err){
 
 		});
@@ -143,7 +143,7 @@
 		ref=firebase.database().ref("money/withdraw");
 		ref.on("value",function(snapshot){
 			sumwithdraw=parseFloat(snapshot.val());
-			$("#withdraw").text(summoney.toFixed(2)+" บาท");
+			$("#withdraw").text(sumwithdraw.toFixed(2)+" บาท");
 		},function(err){
 
 		});
