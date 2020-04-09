@@ -27,12 +27,174 @@
         <a href="index.html">ฝ่ายบุคคล<a href="money.html">ฝ่ายการเงิน</a><a href="radio.html">ฝ่ายเทคนิค</a><a href="canvas.html">ระบบเซ็น</a><a href="card.html">ระบบทำบัตร</a>
     </div>
     <br>
-	
-	<center>
-<h1>ไม่พร้อมใช้งาน</h1>
+    <center>
+	<select id="type" onchange="change()">
+            <option>ทั้งหมด</option>
+            <option >วิทยุ</option>
+            <option >ลำโพง</option>
+            <option >ไมค์</option>
+            <option >กรวย</option>
+        </select>
+    <select id="type2" onchange="change()">
+            <option >พร้อมใช้งาน</option>
+            <option>ชำรุด</option>
+            <option >กำลังใช้งาน</option>
+    </select>
+	<button onclick="download()" class="btn-successful">ดาวน์โหลด</button>
+        <button onclick="popup()" class="btn-successful">เพิ่มข้อมูล</button>
+        <br>
+<table cellpadding="0" cellspacing="0" id="table">
+    <tr id="th">
+        <td>หมายเลข</td>
+        <td>ยี่ห้อ</td>
+        <td>ประเภทอุปกรณ์</td>
+        <td>จำนวนการใช้งาน</td>
+        <td>วันซ่อมบำรุงล่าสุด</td>
+        <td>QR code</td>
+        <td>สถานะ</td>
+        <td>แก้ไข</td>
+        <td>แจ้งเสีย</td>
+    </tr>
+</table>
+<div class="form">
+            <button onclick="closepopup()" class="close">ปิด</button>
+            <br>
+            <input type="text" name="" placeholder="หมายเลข" id="number">
+            <input type="text" name="" placeholder="ยี่ห้อ" id="brand">
+            <input type="text" name="" placeholder="ประเภทอุปกรณ์" id="object">
+            <input type="date" name="" placeholder="วันซ่อมบำรุงล่าสุด" id="date">
+            <input type="text" name="" placeholder="รหัสเพิ่มข้อมูล" id="password">
+            <br>
+            <button onclick="send()" class="suc">บันทึก</button>
+        </div>
 </center>
+
 <script type="text/javascript">
 
+        $(".form").css("display","none");
+
+        function popup(){
+            $(".form").css("display","block");
+        }
+
+        function closepopup(){
+            $(".form").css("display","none");
+        }
+    firebase.initializeApp(firebaseConfig);
+
+    
+
+    function download(){
+        swal({
+            title:"แจ้งเตือน",
+            text:"คุณต้องการดาวโหลดข้อมูลเป็นไฟล์ xlsx หรือไม่",
+            icon:"warning",
+            buttons:true,
+            dangerMode:true,
+        }).then((download)=>{
+            if(download){
+                $("#table").excelexportjs({
+                    containerid:"table",
+                    datatype:'table'
+                });
+                swal("แจ้งเตือน","ดาวโหลดไฟล์สำเร็จ","success")
+            }else{
+                swal("คุณได้ยกเลิกการดาวโหลด");
+            }
+        });
+    }
+    function createElement(val1,val2,val3,val4,val5,val6){
+        let textbtn=(val6!="ชำรุด")?"แจ้งชำรุด":"แจ้งซ่อม";
+        $("#table").append("<tr id='tr' class='element'><td>"+val1+"</td><td>"+val2+"</td><td>"+val3+"</td><td>"+val5+"</td><td>"+val4+"</td><td><a href='https://api.qrserver.com/v1/create-qr-code/?size=250x250&data="+val1+"' target='_balank'><img src='https://api.qrserver.com/v1/create-qr-code/?size=50x50&data="+val1+"'></a></td><td>"+val6+"</td><td><button onclick=\"load('"+val1+"')\">แก้ไข</button></td><td><button onclick=\"replaces('"+val1+"')\">"+textbtn+"</button></td></tr>");
+    }
+    function change(){
+        let type2=$("#type2").val();
+        let type=$("#type").val();
+    ref=firebase.database().ref("radio");
+    ref.on("value",function(snapshot){
+        $(".element").remove();
+        snapshot.forEach(function(data){
+            var counts=data.val()[4]!=undefined ? data.val()[4]:0;
+            let status=data.val()[5]!=undefined ? data.val()[5]:"พร้อมใช้งาน";
+            console.log(type);
+            if(type=="ทั้งหมด" && type2==status){
+                createElement(data.val()[0],data.val()[1],data.val()[2],data.val()[3],counts,status);
+            }else if(type==data.val()[2] && type2==status){
+                createElement(data.val()[0],data.val()[1],data.val()[2],data.val()[3],counts,status);
+            }
+            
+        });
+    },function(err){
+        console.log(err);
+    });
+    }
+change();
+    function load(tag){
+        $(".form").css("display","block");
+        swal("แก้ไขข้อมูลของ"+tag);
+        ref=firebase.database().ref("radio/"+tag);
+        ref.once("value",function(snapshot){
+            $("#number").val(snapshot.val()[0]);
+            $("#brand").val(snapshot.val()[1]);
+            $("#object").val(snapshot.val()[2]);
+            $("#date").val(snapshot.val()[3]);
+        },function(err){
+            console.err("Error"+err);
+        });
+    }
+
+    function replaces(number){
+        let type2=$("#type2").val();
+        let type=$("#type").val();
+        swal({
+            title:"แจ้งเตือน",
+            text:"คุณต้องการแจ้งข้อมูลหรือไม่",
+            icon:"warning",
+            buttons:true,
+            dangerMode:true
+            }).then((download)=>{
+                if(download){
+                    if(type2=="ชำรุด"){
+ref=firebase.database().ref("radio/"+number);
+                    ref.child(5).set("พร้อมใช้งาน");  
+                    }else{
+                        ref=firebase.database().ref("radio/"+number);
+                    ref.child(5).set("ชำรุด");  
+                    }
+                    
+                }else{
+                    swal("แจ้งเตือน","ยกเลิกแจ้งข้อมูล","success");
+                }
+            });
+        //window.location.reload();
+    }
+
+    function send(){
+        let password=$("#password").val();
+        ref=firebase.database().ref("persort/"+password);
+        ref.once("value",function(snapshot){
+            if(snapshot.val()!=null && password!=""){
+                let number=$("#number").val();
+                let brand=$("#brand").val();
+                let object=$("#object").val();
+                let date=$("#date").val();
+                ref=firebase.database().ref("radio/"+number);
+                ref.child(0).set(number);
+                ref.child(1).set(brand);
+                ref.child(2).set(object);
+                ref.child(3).set(date);
+                change();
+                swal("แจ้งเตือน","บันทึกข้อมูลสำเร็จ","success");
+                $(".form").css("display","none");
+                $("#number").val("");
+                $("#brand").val("");
+                $("#object").val("");
+                $("#date").val("");
+            }
+        },function(err){
+
+        });
+    }
 </script>
 </body>
 </html>
