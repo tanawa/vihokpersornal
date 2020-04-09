@@ -88,7 +88,7 @@
             border:2px solid #DDD;
         }
            #table{
-            width: 90%;
+            width: 95%;
             background-color: #006633;
         }
         #th>td{
@@ -142,12 +142,12 @@
             border:2px solid #DDD;
         }
             #table{
-            width: 60%;
+            width: 90%;
             background-color: #006633;
         }
         #th>td{
             text-align: center;
-            font-size: 12px;
+            font-size: 9px;
             background-color: #2A2727;
             height: 10pt;
             color:#FFF;
